@@ -6,7 +6,8 @@ const translationRouter = new Hono();
 
 translationRouter.use(verifyAuth);
 
-translationRouter.post("/ZtoEn", translationController.createTranslation);
+translationRouter.get("/trending", translationController.getTrendingSlang);
+translationRouter.post("/ZtoEN", translationController.createTranslation);
 translationRouter.post("/save/:id", translationController.saveTranslation);
 translationRouter.delete(
   "/delete/:id",

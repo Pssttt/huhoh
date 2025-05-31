@@ -88,4 +88,14 @@ const deleteTranslation = async (c: Context) => {
   }
 };
 
-export { createTranslation, saveTranslation, deleteTranslation };
+const getTrendingSlang = async (c: Context) => {
+  const trendingSlang = await translationModel.getTrendingSlang();
+  return c.json(trendingSlang, 200);
+};
+
+export {
+  createTranslation,
+  saveTranslation,
+  deleteTranslation,
+  getTrendingSlang,
+};
