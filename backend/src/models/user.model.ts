@@ -33,7 +33,7 @@ const getUserInfo = async (id: string) => {
   return user;
 };
 
-const validatePassword = async (input: String, hash: String) => {
+const validatePassword = async (input: string, hash: string) => {
   return compare(input, hash);
 };
 
@@ -45,7 +45,7 @@ const createUser = async (
   const hashedPassword = await hash(password, 10);
   const user = await db.user.create({
     data: {
-      userName: userName,
+      username: userName,
       email: email,
       password: hashedPassword,
     },
@@ -76,7 +76,7 @@ const updateUser = async (
     data: updateData,
     select: {
       username: true,
-      profilePic: true,
+      profilepic: true,
       password: true,
     },
   });
@@ -91,4 +91,5 @@ export {
   getUserInfo,
   createUser,
   updateUser,
+  validatePassword,
 };
