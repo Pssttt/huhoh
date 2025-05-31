@@ -133,9 +133,9 @@ const createZtoENTranslation = async (
     },
   });
 
-  const { original, translated } = translation;
+  const { id, original, translated } = translation;
 
-  return { original, translated };
+  return { id, original, translated };
 };
 
 const createENtoZTranslation = async (
