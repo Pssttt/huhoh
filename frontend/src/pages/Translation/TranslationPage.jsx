@@ -106,6 +106,13 @@ const TranslationPage = () => {
   //   }
   // }
 
+  if (!trendSlangs)
+    return (
+      <div className="flex items-center justify-center h-screen w-screen">
+        <Loader2 className="animate-spin w-12 h-12 text-primary" />
+      </div>
+    )
+
   return (
     <>
       <DashboardNavBar />
