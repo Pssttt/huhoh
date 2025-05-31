@@ -31,6 +31,33 @@ const getAllTranslationsByUser = async (userId: string) => {
   return translations;
 };
 
+const getAllSavedTranslationsByUser = async (userId: string) => {
+  const [savedTranslations, totalCount] = await Promise.all([
+    db.savedTranslation.findMany({
+      where: { userId },
+      include: {
+        translation: {
+          select: {
+            original: true,
+            translated: true,
+          },
+        },
+      },
+    }),
+    db.savedTranslation.count({
+      where: { userId },
+    }),
+  ]);
+
+  return {
+    translations: savedTranslations.map((st) => ({
+      original: st.translation.original,
+      translated: st.translation.translated,
+    })),
+    totalCount,
+  };
+};
+
 const getOrCreateSlangTermIds = async (slangTerms: SlangTerm[]) => {
   const slangTermIds = await Promise.all(
     slangTerms.map(async (slang) => {
@@ -49,14 +76,14 @@ const getOrCreateSlangTermIds = async (slangTerms: SlangTerm[]) => {
         },
       });
       return term.id;
-    }),
+    })
   );
   return slangTermIds;
 };
 
 const createTranslation = async (
   data: CreateTranslationBody,
-  slangTerms: SlangTerm[],
+  slangTerms: SlangTerm[]
 ) => {
   const slangTermIds = await getOrCreateSlangTermIds(slangTerms);
 
@@ -222,6 +249,7 @@ const getTrendingSlang = async () => {
 export {
   getTranslationById,
   getAllTranslationsByUser,
+  getAllSavedTranslationsByUser,
   createTranslation,
   saveTranslation,
   deleteTranslation,
