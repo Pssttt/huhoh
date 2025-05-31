@@ -4,6 +4,7 @@ import SignUp from './pages/SignUp/SignUpPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import TranslationPage from './pages/Translation/TranslationPage'
+import SignIn from './pages/SignIn/SignInPage'
 
 const LoadingFallback = () => (
   <div className="flex justify-center items-center h-screen">
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   //   path: '/translation',
   //   element: <TranslationPage />,
   // },
+  {
+    path: '/signin',
+    element: <SignIn />,
+  },
 ])
 
 const App = () => {
