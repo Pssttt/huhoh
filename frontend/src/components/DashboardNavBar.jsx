@@ -19,7 +19,11 @@ const DashboardNavBar = () => {
 
   return (
     <header className="sticky top-0 z-49 mb-8 flex flex-row justify-between items-center px-6 lg:px-12 py-4 bg-white/80 backdrop-blur-sm border-b border-gray-200/50">
-      <Link to="/" aria-label="Logo" className="flex items-center gap-3 group">
+      <Link
+        to="/translations"
+        aria-label="Logo"
+        className="flex items-center gap-3 group"
+      >
         <div className="relative">
           <img
             className="rounded-full w-10 h-10 sm:w-12 sm:h-12 transition-transform group-hover:scale-105"
@@ -59,12 +63,14 @@ const DashboardNavBar = () => {
               </li>
             )
           })}
-          <img
-            src={''}
-            // src={userData.profilePic}
-            alt="Profile"
-            className="w-8 h-8 lg:w-16 lg:h-16 rounded-full cursor-pointer"
-          />
+          <Link to="/profile">
+            <img
+              src={''}
+              // src={userData.profilePic}
+              alt="Profile"
+              className="w-8 h-8 lg:w-16 lg:h-16 rounded-full cursor-pointer"
+            />
+          </Link>
         </ul>
       </nav>
     </header>
