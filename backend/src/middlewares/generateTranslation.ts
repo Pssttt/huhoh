@@ -1,6 +1,10 @@
 import { GoogleGenAI } from "@google/genai";
 import type { Context } from "hono";
 
+const GOOGLE_CLOUD_PROJECT = process.env.GOOGLE_CLOUD_PROJECT;
+const GOOGLE_CLOUD_LOCATION = process.env.GOOGLE_CLOUD_LOCATION || "global";
+const model = "gemini-2.0-flash";
+
 const generateZtoENTranslation = async (c: Context) => {
   const formData = await c.req.formData();
   const input = formData.get("input") as string;
@@ -13,7 +17,7 @@ Respond in strict JSON like:
   "original": "...",
   "translated": "...",
   "slang": [
-    { "term": "slang1", "meaning": "...", "example": "...", "origin": "..." },
+    { "term": "slang1", "meaning": "...", "example": "..."},
     ...
   ],
 }
@@ -25,12 +29,15 @@ Only return JSON. No markdown or code block.
 
   try {
     const ai = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY,
+      vertexai: true,
+      project: GOOGLE_CLOUD_PROJECT,
+      location: GOOGLE_CLOUD_LOCATION,
     });
+
     const config = {
       responseMimeType: "application/json",
     };
-    const model = "gemini-2.0-flash";
+
     const contents = [
       {
         role: "user",
@@ -74,7 +81,7 @@ Rewrite the following plain English sentence into natural Gen Z slang, prioritiz
   "original": "...",
   "translated": "...",
   "slang": [
-    { "term": "slang1", "meaning": "...", "example": "...", "origin": "..." },
+    { "term": "slang1", "meaning": "...", "example": "..." },
     ...
   ],
 }
@@ -86,12 +93,15 @@ Only return JSON. No markdown or code block. If no slang fits, return an empty '
 
   try {
     const ai = new GoogleGenAI({
-      apiKey: process.env.GEMINI_API_KEY,
+      vertexai: true,
+      project: GOOGLE_CLOUD_PROJECT,
+      location: GOOGLE_CLOUD_LOCATION,
     });
+
     const config = {
       responseMimeType: "application/json",
     };
-    const model = "gemini-2.0-flash";
+
     const contents = [
       {
         role: "user",

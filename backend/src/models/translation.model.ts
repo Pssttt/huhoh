@@ -68,17 +68,15 @@ const getOrCreateSlangTermIds = async (slangTerms: SlangTerm[]) => {
         update: {
           meaning: slang.meaning,
           example: slang.example,
-          origin: slang.origin,
         },
         create: {
           term: slang.term,
           meaning: slang.meaning,
           example: slang.example,
-          origin: slang.origin,
         },
       });
       return term.id;
-    })
+    }),
   );
   return slangTermIds;
 };
@@ -91,7 +89,6 @@ const getSlangTermById = async (id: string) => {
       term: true,
       meaning: true,
       example: true,
-      origin: true,
     },
   });
   return slangTerm;
@@ -104,7 +101,6 @@ const getAllSlangTerms = async () => {
       term: true,
       meaning: true,
       example: true,
-      origin: true,
     },
   });
   return slangTerms;
@@ -112,7 +108,7 @@ const getAllSlangTerms = async () => {
 
 const createZtoENTranslation = async (
   data: CreateTranslationBody,
-  slangTerms: SlangTerm[]
+  slangTerms: SlangTerm[],
 ) => {
   const slangTermIds = await getOrCreateSlangTermIds(slangTerms);
 
@@ -144,7 +140,7 @@ const createZtoENTranslation = async (
 
 const createENtoZTranslation = async (
   data: CreateTranslationBody,
-  slangTerms: SlangTerm[]
+  slangTerms: SlangTerm[],
 ) => {
   const slangTermIds = await getOrCreateSlangTermIds(slangTerms);
 
@@ -287,7 +283,6 @@ const getTrendingSlang = async () => {
       term: true,
       meaning: true,
       example: true,
-      origin: true,
     },
   });
 
@@ -312,6 +307,7 @@ export {
   getAllTranslationsByUser,
   getAllSavedTranslationsByUser,
   createZtoENTranslation,
+  createENtoZTranslation,
   saveTranslation,
   deleteTranslation,
   getOrCreateSlangTermIds,

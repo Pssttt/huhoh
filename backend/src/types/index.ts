@@ -13,5 +13,4 @@ export interface SlangTerm {
   term: string;
   meaning: string;
   example: string;
-  origin: string;
 }
