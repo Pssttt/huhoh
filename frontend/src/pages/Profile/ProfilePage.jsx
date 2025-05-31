@@ -4,7 +4,7 @@ import { useDataContext } from '@/hooks/useDataContext'
 import { Loader2 } from 'lucide-react'
 
 const ProfilePage = () => {
-  const { userData } = useDataContext()
+  const { userData, allSavedTranslations } = useDataContext()
 
   if (!userData) {
     return (
@@ -13,6 +13,16 @@ const ProfilePage = () => {
       </div>
     )
   }
+
+  if (!allSavedTranslations) {
+    return (
+      <div className="flex items-center justify-center h-screen w-screen">
+        <Loader2 className="animate-spin w-12 h-12 text-primary" />
+      </div>
+    )
+  }
+
+  console.log(allSavedTranslations)
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -39,7 +49,9 @@ const ProfilePage = () => {
           <div className="flex justify-center mt-8">
             <div className="bg-gray-50 rounded-xl px-85 py-6 flex flex-col items-center shadow w-full max-w-md">
               <span className="text-gray-500 text-base">Total</span>
-              <span className="text-4xl font-bold text-purple-600">125</span>
+              <span className="text-4xl font-bold text-purple-600">
+                {allSavedTranslations.totalCount}
+              </span>
             </div>
           </div>
         </section>
@@ -57,31 +69,21 @@ const ProfilePage = () => {
                   <th className="px-4 py-2 text-left font-medium text-gray-700">
                     Translation
                   </th>
+                  <th className="px-4 py-2 text-left font-medium text-gray-700">
+                    Saved On
+                  </th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-t">
-                  <td className="px-4 py-2">That outfit is lowkey fire.</td>
-                  <td className="px-4 py-2">
-                    That outfit is actually really nice, but not in an obvious
-                    or flashy way.
-                  </td>
-                </tr>
-                <tr className="border-t">
-                  <td className="px-4 py-2">
-                    I'm totally dead after that meme.
-                  </td>
-                  <td className="px-4 py-2">
-                    That meme was so funny it made me laugh really hard.
-                  </td>
-                </tr>
-                <tr className="border-t">
-                  <td className="px-4 py-2">He's such a simp for her.</td>
-                  <td className="px-4 py-2">
-                    He goes out of his way to do things for her, possibly too
-                    much, just because he likes her.
-                  </td>
-                </tr>
+                {allSavedTranslations.translations.map((translation) => (
+                  <tr key={translation.id} className="border-t">
+                    <td className="px-4 py-2">{translation.original}</td>
+                    <td className="px-4 py-2">{translation.translated}</td>
+                    <td className="px-4 py-2 text-sm text-gray-500">
+                      {new Date(translation.createdAt).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>

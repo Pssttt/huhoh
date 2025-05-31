@@ -4,12 +4,16 @@ import { useFetch } from '@/hooks/useFetch'
 export const DataContext = createContext()
 
 export const DataContextProvider = ({ children }) => {
-  const { fetchUserData } = useFetch()
-  const { fetchSlangs } = useFetch()
-  const { fetchTrendSlangs } = useFetch()
+  const {
+    fetchUserData,
+    fetchSlangs,
+    fetchTrendSlangs,
+    fetchAllSavedTranslations,
+  } = useFetch()
   const [userData, setUserData] = useState(null)
   const [slangTerms, setSlangTerms] = useState([])
   const [trendSlangs, setTrendSlangs] = useState([])
+  const [allSavedTranslations, setAllSavedTranslations] = useState([])
 
   const reloadUserData = async () => {
     const data = await fetchUserData()
@@ -26,9 +30,15 @@ export const DataContextProvider = ({ children }) => {
     setTrendSlangs(data)
   }
 
+  const getAllSavedTranslations = async () => {
+    const data = await fetchAllSavedTranslations()
+    setAllSavedTranslations(data)
+  }
+
   useEffect(() => {
     getSlangTerms()
     getTrendSlangs()
+    getAllSavedTranslations()
   }, [])
 
   useEffect(() => {
@@ -54,6 +64,8 @@ export const DataContextProvider = ({ children }) => {
         setSlangTerms,
         trendSlangs,
         setTrendSlangs,
+        allSavedTranslations,
+        setAllSavedTranslations,
       }}
     >
       {children}

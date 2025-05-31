@@ -37,6 +37,16 @@ export const useFetch = () => {
   const saveTranslation = async (id) => {
     try {
       const res = await api.post(`/translations/save/${id}`)
+    } catch (e) {
+      console.error(e)
+      setFetchError(e.response.data.message)
+    }
+  }
+
+  const fetchAllSavedTranslations = async () => {
+    try {
+      const res = await api.get(`/translations/saved`)
+      console.log(res.data)
       return res.data
     } catch (e) {
       console.error(e)
@@ -50,5 +60,6 @@ export const useFetch = () => {
     fetchError,
     fetchTrendSlangs,
     saveTranslation,
+    fetchAllSavedTranslations,
   }
 }
