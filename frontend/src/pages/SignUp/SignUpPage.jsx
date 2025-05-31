@@ -8,9 +8,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import SignupNav from '@/components/Signup/SignupNav' // Top navbar component
 
-// Zod validation schema
+// Zod validation schema with username
 const signupSchema = z
   .object({
+    username: z.string().min(2, 'Username is required'),
     email: z.string().email('Invalid email address'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: z.string(),
@@ -36,7 +37,6 @@ const SignUp = () => {
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      // Simulate API call
       console.log('Sending data to backend:', data)
       setTimeout(() => {
         setLoading(false)
@@ -49,12 +49,12 @@ const SignUp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Top navigation bar */}
       <SignupNav />
 
-      {/* Centered sign-up form */}
-      <div className="flex items-center justify-center px-4 pt-12">
+      {/* Centered form section */}
+      <div className="flex-grow flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           {/* Tab Navigation */}
           <div className="flex justify-center mb-6 space-x-6 border-b border-gray-200">
@@ -62,10 +62,10 @@ const SignUp = () => {
               to="/signin"
               className="text-gray-500 hover:text-purple-600 pb-2 border-b-2 border-transparent hover:border-purple-500 transition-all"
             >
-              Sign In
+              Sign in
             </Link>
             <span className="text-purple-600 font-semibold pb-2 border-b-2 border-purple-600">
-              Sign Up
+              Sign up
             </span>
           </div>
 
@@ -127,19 +127,21 @@ const SignUp = () => {
               </Link>
             </div>
 
-            {/* Submit button */}
-            <Button
-              type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700"
-              disabled={loading}
-            >
-              {loading ? 'Creating Account...' : 'Sign Up'}
-            </Button>
-
-            {/* Demo mode */}
-            <div className="text-center text-sm text-gray-400">
-              Or, try the demo mode
+            {/* Submit button centered and styled */}
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                className="w-40 bg-purple-600 hover:bg-purple-700 rounded-full"
+                disabled={loading}
+              >
+                {loading ? 'Creating...' : 'Sign Up'}
+              </Button>
             </div>
+
+            {/* Demo mode link */}
+            <p className="text-sm text-center text-gray-400">
+              Or, try the demo mode
+            </p>
           </form>
         </div>
       </div>

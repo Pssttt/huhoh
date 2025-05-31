@@ -6,12 +6,12 @@ import { useNavigate, Link } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import SignupNav from '@/components/Signup/SignupNav' // Top navbar component
+import SigninNav from '@/components/SignIn/SignInNav'
 
-// Zod schema for Sign In
-const signInSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+// Zod validation schema for sign in
+const signinSchema = z.object({
+  email: z.string().email('wrong email address'),
+  password: z.string().min(6, 'wrong password'),
 })
 
 const SignIn = () => {
@@ -23,18 +23,17 @@ const SignIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(signInSchema),
+    resolver: zodResolver(signinSchema),
     mode: 'onChange',
   })
 
   const onSubmit = async (data) => {
     setLoading(true)
     try {
-      // Simulate API call
       console.log('Signing in with:', data)
       setTimeout(() => {
         setLoading(false)
-        navigate('/dashboard') // Redirect after login
+        navigate('/dashboard') // Change this route as needed
       }, 1000)
     } catch (err) {
       setLoading(false)
@@ -43,23 +42,23 @@ const SignIn = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Top Navbar */}
-      <SignupNav />
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Top navigation bar */}
+      <SigninNav />
 
-      {/* Form Container */}
-      <div className="flex items-center justify-center px-4 pt-12">
+      {/* Centered sign-in form */}
+      <div className="flex-grow flex items-center justify-center px-4">
         <div className="w-full max-w-md">
           {/* Tab Navigation */}
           <div className="flex justify-center mb-6 space-x-6 border-b border-gray-200">
             <span className="text-purple-600 font-semibold pb-2 border-b-2 border-purple-600">
-              Sign In
+              Sign in
             </span>
             <Link
               to="/signup"
               className="text-gray-500 hover:text-purple-600 pb-2 border-b-2 border-transparent hover:border-purple-500 transition-all"
             >
-              Sign Up
+              Sign up
             </Link>
           </div>
 
@@ -89,20 +88,22 @@ const SignIn = () => {
 
             {/* Link to Sign Up */}
             <div className="text-sm text-center text-gray-500">
-              Create a new account?{' '}
+              New here?{' '}
               <Link to="/signup" className="text-purple-600 hover:underline">
-                Sign Up
+                Create an account
               </Link>
             </div>
 
             {/* Submit button */}
-            <Button
-              type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700"
-              disabled={loading}
-            >
-              {loading ? 'Signing In...' : 'Sign In'}
-            </Button>
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                className="w-40 bg-purple-600 hover:bg-purple-700 rounded-full"
+                disabled={loading}
+              >
+                {loading ? 'Signing in...' : 'Sign In'}
+              </Button>
+            </div>
 
             {/* Demo mode */}
             <div className="text-center text-sm text-gray-400">

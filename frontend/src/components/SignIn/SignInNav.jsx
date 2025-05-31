@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 
-const SignupNav = () => {
+const SigninNav = () => {
   return (
     <header className="flex justify-between items-center px-6 lg:px-12 py-4 bg-white/80 backdrop-blur-sm border-b border-gray-200/50">
       <a href="#" aria-label="Logo" className="flex items-center gap-3 group">
@@ -17,11 +17,11 @@ const SignupNav = () => {
         </span>
       </a>
 
-      <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105">
+      <Button className="px-4 py-2 rounded-full text-white bg-purple-600 hover:bg-purple-700">
         Sign Up
       </Button>
     </header>
   )
 }
 
-export default SignupNav
+export default SigninNav
