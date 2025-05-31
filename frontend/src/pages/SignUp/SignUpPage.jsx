@@ -156,9 +156,11 @@ const SignUpPage = () => {
             </div>
 
             {/* Demo mode link */}
-            <p className="text-sm text-center text-gray-400">
-              Or, try the demo mode
-            </p>
+            <div className="flex justify-center w-full">
+              <span className="text-sm text-gray-400 cursor-pointer hover:underline">
+                Or, try the demo mode
+              </span>
+            </div>
           </form>
         </div>
       </div>

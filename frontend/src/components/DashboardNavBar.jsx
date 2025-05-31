@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDataContext } from '@/hooks/useDataContext'
 import { Loader2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
+import { clearAuthData } from '@/services/auth'
 
 const DashboardNavBar = () => {
   const { userData } = useDataContext()
@@ -24,8 +25,8 @@ const DashboardNavBar = () => {
     }
   }, [menuOpen])
 
-  const handleSignOut = () => {
-    // Clear tokens or user data here if needed
+  const handleSignOut = async () => {
+    await clearAuthData()
     navigate('/signin')
   }
 

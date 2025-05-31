@@ -101,9 +101,9 @@ const SignInPage = () => {
 
             {/* Link to Sign Up */}
             <div className="text-sm text-center text-gray-500">
-              New here?{' '}
+              Create a new Account?{' '}
               <Link to="/signup" className="text-purple-600 hover:underline">
-                Create an account
+                Sign Up
               </Link>
             </div>
 
@@ -119,8 +119,10 @@ const SignInPage = () => {
             </div>
 
             {/* Demo mode */}
-            <div className="text-center text-sm text-gray-400">
-              Or, try the demo mode
+            <div className="flex justify-center w-full">
+              <span className="text-sm text-gray-400 cursor-pointer hover:underline">
+                Or, try the demo mode
+              </span>
             </div>
           </form>
         </div>

@@ -1,131 +1,201 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button } from '@/components/ui/button'
+import { useDataContext } from '@/hooks/useDataContext'
+import FormField from '@/components/FormField'
 import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import api from '@/services/api'
+import { clearAuthData } from '@/services/auth'
+import { useFetch } from '@/hooks/useFetch'
+import { Loader2, Eye, EyeOff } from 'lucide-react'
 import { toast } from 'sonner'
 import DashboardNavBar from '@/components/DashboardNavBar'
 
-const EditProfilePage = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    oldPassword: '',
-    newPassword: '',
-    profileImage: null,
-  })
-  const [previewImage, setPreviewImage] = useState(null)
-  const fileInputRef = useRef(null)
+const EditUserAccount = () => {
+  const { userData, setUserData, reloadUserData } = useDataContext()
+  const { fetchUserData } = useFetch()
+  const [username, setUsername] = useState('')
+  const [oldPassword, setOldPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [showOldPassword, setShowOldPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [profilePic, setProfilePic] = useState(null)
+  const [previewPic, setPreviewPic] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [initialLoading, setInitialLoading] = useState(!userData)
+  const fileInputRef = useRef()
   const navigate = useNavigate()
 
-  const handleImageUpload = (e) => {
-    if (e.target.files?.[0]) {
-      const file = e.target.files[0]
-      setFormData((prev) => ({ ...prev, profileImage: file }))
+  useEffect(() => {
+    if (userData) {
+      setUsername(userData.username || '')
+      setProfilePic(userData.profilePic)
+      setPreviewPic(userData.profilePic)
+      setInitialLoading(false)
+    } else {
+      const loadUserData = async () => {
+        try {
+          await reloadUserData()
+        } catch (error) {
+          console.error('Failed to load user data:', error)
+          toast.error('Failed to load profile data')
+          navigate('/profile')
+        } finally {
+          setInitialLoading(false)
+        }
+      }
 
-      const reader = new FileReader()
-      reader.onload = () => setPreviewImage(reader.result)
-      reader.readAsDataURL(file)
+      loadUserData()
+    }
+  }, [userData, reloadUserData, navigate])
+
+  const handlePicChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setProfilePic(file)
+      setPreviewPic(URL.createObjectURL(file))
     }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try {
-      const formPayload = new FormData()
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value) formPayload.append(key, value)
-      })
+    setLoading(true)
 
-      await api.put('/profile/update', formPayload)
-      toast.success('Profile updated')
-      navigate('/profile')
-    } catch (error) {
-      toast.error('Update failed')
-      console.error(error)
+    try {
+      const formData = new FormData()
+
+      if (username) {
+        formData.append('username', username)
+      }
+
+      if (oldPassword && newPassword) {
+        formData.append('oldPassword', oldPassword)
+        formData.append('newPassword', newPassword)
+      }
+
+      if (profilePic instanceof File) {
+        formData.append('profilePic', profilePic)
+      }
+
+      const res = await api.put('/auth/update', formData)
+
+      if (res.data.success) {
+        const updated = await fetchUserData()
+        setUserData(updated.data)
+        toast.success('Profile updated!')
+
+        if (oldPassword && newPassword) {
+          await clearAuthData()
+          toast.success('Please login with your new password')
+          navigate('/signin')
+        } else {
+          setTimeout(() => {
+            navigate('/profile')
+          }, 100)
+        }
+      } else {
+        toast.error(res.data.msg || 'Update failed')
+      }
+    } catch (err) {
+      console.error('Update error:', err)
+      toast.error(err.response?.data?.msg || 'Server error')
+    } finally {
+      setLoading(false)
     }
   }
 
+  if (initialLoading) {
+    return (
+      <div className="flex flex-col min-h-screen bg-white items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <p className="mt-2 text-gray-500">Loading profile data...</p>
+      </div>
+    )
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-white">
       <DashboardNavBar />
-
-      <div className="max-w-md mx-auto p-6 pt-10">
-        {/* Profile Picture Upload */}
-        <div className="flex flex-col items-center mb-8">
-          <div
-            className="w-24 h-24 rounded-full bg-gray-200 border-2 border-gray-200 flex items-center justify-center cursor-pointer overflow-hidden"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            {previewImage ? (
-              <img
-                src={previewImage}
-                alt="Profile Preview"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <span className="text-4xl text-gray-400">👤</span>
-            )}
+      <h2 className="text-2xl font-bold ml-12">Edit Profile</h2>
+      <div className="flex flex-1 items-center justify-center">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center gap-6 w-[400px] mb-8"
+        >
+          <div className="flex flex-col items-center">
+            <img
+              src={previewPic || '/default-avatar.png'}
+              alt="Profile Preview"
+              className="w-36 h-36 rounded-full object-cover mb-2 border-2 border-gray-200"
+              onClick={() => fileInputRef.current.click()}
+              style={{ cursor: 'pointer' }}
+            />
+            <Input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handlePicChange}
+              className="hidden"
+            />
+            <span className="text-xs text-gray-500">Click image to change</span>
           </div>
-          <input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleImageUpload}
-            accept="image/*"
-            className="hidden"
-          />
-          <Button
-            variant="ghost"
-            size="sm"
-            className="mt-3"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            Edit
-          </Button>
-        </div>
-
-        {/* Form Fields */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <Input
+          <FormField
+            id="username"
+            label={null}
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
-            value={formData.username}
-            onChange={(e) =>
-              setFormData({ ...formData, username: e.target.value })
-            }
+            required
           />
-
-          <Input
-            type="password"
-            placeholder="Old Password"
-            value={formData.oldPassword}
-            onChange={(e) =>
-              setFormData({ ...formData, oldPassword: e.target.value })
-            }
-          />
-
-          <Input
-            type="password"
-            placeholder="New Password"
-            value={formData.newPassword}
-            onChange={(e) =>
-              setFormData({ ...formData, newPassword: e.target.value })
-            }
-          />
-
-          {/* Action Buttons */}
-          <div className="flex gap-3 pt-4">
+          <div className="relative w-80">
+            <Input
+              type={showOldPassword ? 'text' : 'password'}
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+              placeholder="Old Password"
+              className="bg-input-background w-full h-12 border-0 rounded-xl ring-primary selection:text-white pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowOldPassword(!showOldPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            >
+              {showOldPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+          <div className="relative w-80">
+            <Input
+              type={showNewPassword ? 'text' : 'password'}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="New Password"
+              className="bg-input-background w-full h-12 border-0 rounded-xl ring-primary selection:text-white pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowNewPassword(!showNewPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            >
+              {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
+          </div>
+          <div className="flex gap-4 mt-2 w-full justify-center">
             <Button
               type="button"
-              variant="outline"
-              className="flex-1"
+              variant="secondary"
+              className="w-36 bg-gray-400 text-white hover:bg-gray-500"
               onClick={() => navigate('/profile')}
+              disabled={loading}
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white"
+              className="w-36 bg-indigo-500 hover:bg-indigo-600 text-white"
+              disabled={loading}
             >
-              Update Profile
+              {loading ? 'Updating...' : 'Update Profile'}
             </Button>
           </div>
         </form>
@@ -134,4 +204,4 @@ const EditProfilePage = () => {
   )
 }
 
-export default EditProfilePage
+export default EditUserAccount
