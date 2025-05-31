@@ -2,6 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import dotenv from "dotenv";
 import { cors } from "hono/cors";
+import { mainRouter } from "./routes/index.js";
 dotenv.config();
 
 const app = new Hono();
@@ -9,6 +10,8 @@ const app = new Hono();
 app.get("/", (c) => {
   return c.text("Hello Hono!");
 });
+
+app.route("", mainRouter);
 
 app.use(
   "*",
