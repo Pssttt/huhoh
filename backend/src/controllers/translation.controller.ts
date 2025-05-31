@@ -32,7 +32,7 @@ const createTranslation = async (c: Context) => {
 
     const translation = await translationModel.createTranslation(
       translationData,
-      output.slang,
+      output.slang
     );
 
     return c.json(translation, 201);
@@ -43,7 +43,7 @@ const createTranslation = async (c: Context) => {
         error: "Failed to create translation",
         detail: error instanceof Error ? error.message : "Unknown error",
       },
-      500,
+      500
     );
   }
 };
@@ -59,7 +59,7 @@ const saveTranslation = async (c: Context) => {
 
     const savedTranslation = await translationModel.saveTranslation(
       translationId,
-      userId,
+      userId
     );
 
     return c.json(savedTranslation, 201);
@@ -77,8 +77,9 @@ const deleteTranslation = async (c: Context) => {
       return c.json({ error: "Translation ID is required" }, 400);
     }
 
-    const deletedTranslation =
-      await translationModel.deleteTranslation(translationId);
+    const deletedTranslation = await translationModel.deleteTranslation(
+      translationId
+    );
     return c.json(deletedTranslation, 200);
   } catch (error) {
     console.error("Translation delete error:", error);
@@ -91,9 +92,27 @@ const getTrendingSlang = async (c: Context) => {
   return c.json(trendingSlang, 200);
 };
 
+const getAllTranslationsByUser = async (c: Context) => {
+  const userId = c.get("userId");
+  const allTranslations = await translationModel.getAllTranslationsByUser(
+    userId
+  );
+  return c.json(allTranslations, 200);
+};
+
+const getAllSavedTranslationsByUser = async (c: Context) => {
+  const userId = c.get("userId");
+  const allSavedTranslations =
+    await translationModel.getAllSavedTranslationsByUser(userId);
+  console.log(allSavedTranslations);
+  return c.json(allSavedTranslations, 200);
+};
+
 export {
   createTranslation,
   saveTranslation,
   deleteTranslation,
   getTrendingSlang,
+  getAllTranslationsByUser,
+  getAllSavedTranslationsByUser,
 };
