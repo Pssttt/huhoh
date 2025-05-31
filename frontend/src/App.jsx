@@ -1,13 +1,13 @@
 import React from 'react'
-import LandingPage from './pages/Landing/LandingPage'
-import SignUpPage from './pages/SignUp/SignUpPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import TranslationPage from './pages/Translation/TranslationPage'
+import LandingPage from './pages/Landing/LandingPage'
+import SignUpPage from './pages/SignUp/SignUpPage'
 import SignInPage from './pages/SignIn/SignInPage'
-import ProfilePage from './pages/ProfilePage/ProfilePage'
+import ProfilePage from './pages/Profile/ProfilePage'
 import SlangopediaPage from './pages/Slangopedia/SlangopediaPage'
-import EditProfilePage from './pages/ProfilePage/EditProfilePage'
+import EditProfilePage from './pages/Profile/EditProfilePage'
 import HistoryPage from './pages/History/HistoryPage'
 
 const LoadingFallback = () => (

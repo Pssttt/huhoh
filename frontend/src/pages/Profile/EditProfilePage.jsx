@@ -41,6 +41,7 @@ const EditProfilePage = () => {
       navigate('/profile')
     } catch (error) {
       toast.error('Update failed')
+      console.error(error)
     }
   }
 
