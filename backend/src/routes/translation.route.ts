@@ -1,6 +1,16 @@
 import { Hono } from "hono";
-import { translate } from "../utils/translation.ts";
+import * as translationController from "../controllers/translation.controller.ts";
+import { verifyAuth } from "../middlewares/verifyAuth.ts";
 
 const translationRouter = new Hono();
-translationRouter.route("/", translate);
+
+translationRouter.use(verifyAuth);
+
+translationRouter.post("/ZtoEn", translationController.createTranslation);
+translationRouter.post("/save/:id", translationController.saveTranslation);
+translationRouter.delete(
+  "/delete/:id",
+  translationController.deleteTranslation
+);
+
 export { translationRouter };

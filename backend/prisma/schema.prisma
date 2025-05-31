@@ -35,11 +35,13 @@ model SlangTerm {
   id        String         @id @default(uuid())
   term      String         @unique
   meaning   String
-  example   String?
-  origin    String?
+  example   String? @db.VarChar(255)
+  origin    String? @db.VarChar(255)
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   mentions  SlangMention[]
+  protected Boolean @default(false)
+
 }
 
 model SlangMention {

@@ -1,38 +1,20 @@
-import { Hono } from "hono";
 import { GoogleGenAI } from "@google/genai";
+import type { Context } from "hono";
 
-interface SlangTerm {
-  term: string;
-  meaning: string;
-}
-
-interface TranslationResponse {
-  original: string;
-  translated: string;
-  slang: SlangTerm[];
-}
-
-interface ErrorResponse {
-  error: string;
-  detail: unknown;
-}
-
-export const translate = new Hono();
-
-translate.post("/", async (c) => {
+const generateTranslation = async (c: Context) => {
   const { input } = await c.req.json();
 
   const prompt = `
-Rewrite the following slang-heavy sentence into plain English. Extract all slang words and provide their meanings.
+Rewrite the following slang-heavy sentence into plain English. Extract all slang words and provide their meanings.Also add example sentence for each slang word and their origin.
 
 Respond in strict JSON like:
 {
   "original": "...",
   "translated": "...",
   "slang": [
-    { "term": "slang1", "meaning": "..." },
+    { "term": "slang1", "meaning": "...", "example": "...", "origin": "..." },
     ...
-  ]
+  ],
 }
 
 Sentence: "${input}"
@@ -71,7 +53,8 @@ Only return JSON. No markdown or code block.
     }
 
     const output = JSON.parse(res);
-    return c.json(output);
+    // console.log(output);
+    return c.json({ output });
   } catch (err) {
     console.error("Gemini error:", err);
     return c.json(
@@ -79,4 +62,6 @@ Only return JSON. No markdown or code block.
       500
     );
   }
-});
+};
+
+export { generateTranslation };

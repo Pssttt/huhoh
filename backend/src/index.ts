@@ -3,6 +3,7 @@ import { Hono } from "hono";
 import dotenv from "dotenv";
 import { cors } from "hono/cors";
 import { mainRouter } from "./routes/index.js";
+import db from "./lib/db.ts";
 dotenv.config();
 
 const app = new Hono();
@@ -20,7 +21,9 @@ app.use(
     credentials: true,
   })
 );
+
 app.route("", mainRouter);
+
 serve(
   {
     fetch: app.fetch,
@@ -30,3 +33,7 @@ serve(
     console.log(`Server is running on http://localhost:${info.port}`);
   }
 );
+
+process.on("beforeExit", async () => {
+  await db.$disconnect();
+});
