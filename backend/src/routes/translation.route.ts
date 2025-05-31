@@ -1,6 +1,6 @@
 import { Hono } from "hono";
-import * as translationController from "../controllers/translation.controller.js";
+import { translate } from "../utils/translation.js";
 
 const translationRouter = new Hono();
-
+translationRouter.route("/", translate);
 export { translationRouter };

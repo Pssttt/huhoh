@@ -2,6 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import dotenv from "dotenv";
 import { cors } from "hono/cors";
+import { mainRouter } from "./routes/index.js";
 dotenv.config();
 
 const app = new Hono();
@@ -10,14 +11,16 @@ app.get("/", (c) => {
   return c.text("Hello Hono!");
 });
 
+app.route("", mainRouter);
+
 app.use(
   "*",
   cors({
-    origin: "http://localhost:5173", // or your frontend URL
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
-
+app.route("", mainRouter);
 serve(
   {
     fetch: app.fetch,
