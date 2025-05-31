@@ -18,11 +18,13 @@ const LandingNavBar = () => {
         </span>
       </a>
       <nav>
-        <ul>
-          <li className="flex gap-3">
+        <ul className="flex gap-3">
+          <li>
             <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
               Sign In
             </Button>
+          </li>
+          <li>
             <Button
               variant="secondary"
               className="text-gray-600 hover:text-purple-600 hover:bg-purple-50 transition-all duration-200"
