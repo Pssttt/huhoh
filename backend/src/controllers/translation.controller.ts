@@ -113,6 +113,17 @@ const saveTranslation = async (c: Context) => {
   }
 };
 
+const unSaveTranslation = async (c: Context) => {
+  const userId = c.get("userId");
+  const translationId = c.req.param("id");
+
+  const savedTranslation = await translationModel.unSaveTranslation(
+    translationId,
+    userId
+  );
+  return c.json(savedTranslation, 200);
+};
+
 const deleteTranslation = async (c: Context) => {
   try {
     const translationId = c.req.param("id");
@@ -169,6 +180,7 @@ export {
   createZtoENTranslation,
   createEnToZTranslation,
   saveTranslation,
+  unSaveTranslation,
   deleteTranslation,
   getTrendingSlang,
   getAllTranslationsByUser,
