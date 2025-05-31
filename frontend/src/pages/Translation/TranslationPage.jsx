@@ -12,11 +12,10 @@ import { useDataContext } from '@/hooks/useDataContext'
 const TranslationPage = () => {
   const [inputText, setInputText] = useState('')
   const [outputText, setOutputText] = useState('')
+  const [id, setId] = useState('')
   const [isGenZToEnglish, setIsGenZToEnglish] = useState(true)
   const [isTranslating, setIsTranslating] = useState(false)
   const { trendSlangs } = useDataContext()
-
-  const word = 'Cap'
 
   const handleDirectionToggle = () => {
     setIsGenZToEnglish(!isGenZToEnglish)
@@ -68,6 +67,7 @@ const TranslationPage = () => {
       const translationPromise = api
         .post(endpoint, formData)
         .then((response) => {
+          setId(response.data.id)
           return response.data.translated
         })
 
@@ -97,6 +97,14 @@ const TranslationPage = () => {
       console.error('Translation error:', e)
     }
   }
+
+  const handleSave = async (id) => {
+    try {
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   // TODO: add share btn with shadcn
   // const handleShare = async () => {
   //   try {
@@ -184,7 +192,13 @@ const TranslationPage = () => {
             readOnly
           />
           <div className="flex justify-between">
-            <Button className="lg:w-24">Copy</Button>
+            <Button
+              variant="secondary"
+              onClick={() => handleSave(id)}
+              className="lg:w-24"
+            >
+              Save
+            </Button>
             <Button className="lg:w-24">Share</Button>
           </div>
         </div>
