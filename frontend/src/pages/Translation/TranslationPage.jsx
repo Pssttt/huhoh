@@ -12,6 +12,8 @@ const TranslationPage = () => {
   const [outputText, setOutputText] = useState('')
   const [isGenZToEnglish, setIsGenZToEnglish] = useState(true)
 
+  const word = 'Cap'
+
   const handleDirectionToggle = () => {
     setIsGenZToEnglish(!isGenZToEnglish)
 
@@ -74,13 +76,24 @@ const TranslationPage = () => {
     }
   }
 
+  // TODO: add share btn with shadcn
+  // const handleShare = async () => {
+  //   try {
+  //   } catch (e) {
+  //     toast.error('Share failed. Please try again.')
+  //     console.error('Share error:', e)
+  //   }
+  // }
+
   return (
     <>
       <DashboardNavBar />
       <div className="flex items-center justify-around gap-4">
         <div className="flex flex-col w-full max-w-lg">
-          <div className="flex justify-between items-center mb-2">
-            <Label htmlFor="input">{inputLabel}</Label>
+          <div className="flex justify-between items-center mb-4">
+            <Label htmlFor="input" className="font-bold text-4xl">
+              {inputLabel}
+            </Label>
             <Button
               variant="ghost"
               size="sm"
@@ -113,8 +126,10 @@ const TranslationPage = () => {
         </Button>
 
         <div className="flex flex-col w-full max-w-lg">
-          <div className="flex justify-between items-center mb-2">
-            <Label htmlFor="output">{outputLabel}</Label>
+          <div className="flex justify-between items-center mb-4">
+            <Label htmlFor="input" className="font-bold text-4xl">
+              {outputLabel}
+            </Label>
             <Button
               variant="ghost"
               size="sm"
@@ -132,18 +147,23 @@ const TranslationPage = () => {
             readOnly
           />
           <div className="flex justify-end">
-            <Button className="w-20" onClick={() => handleTranslate(inputText)}>
-              Share
-            </Button>
+            <Button className="w-20">Share</Button>
           </div>
         </div>
       </div>
 
-      <div className="text-center mt-4">
+      <div className="text-center m-4">
         <span className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
           Current mode:{' '}
           {isGenZToEnglish ? 'Gen Z → English' : 'English → Gen Z'}
         </span>
+      </div>
+
+      <div className="flex flex-col space-y-6 justify-center items-center">
+        <h2 className="text-4xl">Slang Word of the day is</h2>
+        <div className="p-6 rounded-3xl bg-gray-100">
+          <p className="text-6xl font-extrabold">{word}</p>
+        </div>
       </div>
     </>
   )
