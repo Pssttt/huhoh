@@ -20,14 +20,14 @@ const router = createBrowserRouter([
   //   path: '/login',
   //   element: <LogInPage />,
   // },
-  // {
-  //   path: '/signup',
-  //   element: <SignUpPage />,
-  // },
   {
-    path: '/translation',
-    element: <TranslationPage />,
+    path: '/signup',
+    element: <SignUp />,
   },
+  // {
+  //   path: '/translation',
+  //   element: <TranslationPage />,
+  // },
 ])
 
 const App = () => {
