@@ -10,5 +10,6 @@ userRouter.post("/signup", userController.createUser);
 userRouter.post("/signin", userController.signInUser);
 userRouter.post("/refresh", userController.refreshToken);
 userRouter.post("/signout", verifyAuth, userController.signOutUser);
+userRouter.put("/update", verifyAuth, userController.updateProfile);
 
 export { userRouter };
