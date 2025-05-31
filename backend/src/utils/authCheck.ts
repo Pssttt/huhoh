@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { getAuthState } from "./auth.js";
+import { getAuthState } from "./auth.ts";
 
 const authCheck = async (c: Context) => {
   const authState = await getAuthState(c);

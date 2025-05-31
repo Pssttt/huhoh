@@ -5,7 +5,7 @@ import {
   generateRefreshToken,
   verifyAccessToken,
   verifyRefreshToken,
-} from "./token.js";
+} from "./token.ts";
 
 const issueTokens = async (c: Context, user: any) => {
   const secret = process.env.JWT_SECRET_KEY!;
