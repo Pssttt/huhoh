@@ -12,8 +12,8 @@ export const DataContextProvider = ({ children }) => {
   const [trendSlangs, setTrendSlangs] = useState([])
 
   const reloadUserData = async () => {
-    const res = await fetchUserData()
-    setUserData(res.data)
+    const data = await fetchUserData()
+    setUserData(data)
   }
 
   const getSlangTerms = async () => {
@@ -34,6 +34,12 @@ export const DataContextProvider = ({ children }) => {
     reloadUserData()
     getSlangTerms()
     getTrendSlangs()
+
+    window.addEventListener('storage', handleStorageChange)
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+    }
   }, [])
 
   return (
