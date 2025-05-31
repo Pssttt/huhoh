@@ -72,11 +72,13 @@ const DashboardNavBar = () => {
               </li>
             )
           })}
-          <img
-            src={userData.profilePic}
-            alt="Profile"
-            className="w-8 h-8 lg:w-16 lg:h-16 rounded-full cursor-pointer"
-          />
+          <Link to="/profile">
+            <img
+              src={userData.profilePic}
+              alt="Profile"
+              className="w-8 h-8 lg:w-16 lg:h-16 rounded-full cursor-pointer"
+            />
+          </Link>
         </ul>
       </nav>
     </header>
