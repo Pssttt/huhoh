@@ -12,6 +12,8 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.17",
+    "bcryptjs": "^3.0.2",
+    "dotenv": "^16.5.0",
     "tsx": "^4.7.1",
     "typescript": "^5.8.3"
   }
