@@ -1,24 +1,40 @@
 import db from "../lib/db.js";
 import { hash, compare } from "bcryptjs";
-const findByEmail = async (email: String) => {
+
+const findByEmail = async (email: string) => {
   const mail = await db.user.findUnique({
     where: { email },
   });
   return mail;
 };
 
-const findByUsername = async (username: String) => {
+const findByUsername = async (username: string) => {
   const account = await db.user.findUnique({
     where: { username },
   });
   return account;
 };
 
-const findById = async (id: String) => {
+const findById = async (id: string) => {
   const user = await db.user.findUnique({
     where: { id },
   });
   return user;
+};
+
+const getUserInfo = async (id: string) => {
+  const user = await db.user.findUnique({
+    where: { id },
+    select: {
+      username: true,
+      profilePic: true,
+    },
+  });
+  return user;
+};
+
+const validatePassword = async (input: String, hash: String) => {
+  return compare(input, hash);
 };
 
 const createUser = async (
@@ -37,17 +53,42 @@ const createUser = async (
   return user;
 };
 
-const getUserInfo = async (id: String) => {
-  const user = await db.user.findUnique({
-    where: { id },
+const updateUser = async (
+  userId: string,
+  data: { username?: string; profilePic?: string; password?: string }
+) => {
+  const updateData: any = {};
+
+  if (data.username) {
+    updateData.username = data.username;
+  }
+
+  if (data.profilePic) {
+    updateData.profilePic = data.profilePic;
+  }
+
+  if (data.password) {
+    updateData.password = await hash(data.password, 10);
+  }
+
+  const user = await db.user.update({
+    where: { id: userId },
+    data: updateData,
     select: {
       username: true,
       profilePic: true,
+      password: true,
     },
   });
+
   return user;
 };
 
-const validatePassword = async (input: String, hash: String) => {
-  return compare(input, hash);
+export {
+  findByEmail,
+  findByUsername,
+  findById,
+  getUserInfo,
+  createUser,
+  updateUser,
 };
