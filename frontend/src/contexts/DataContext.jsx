@@ -27,13 +27,21 @@ export const DataContextProvider = ({ children }) => {
   }
 
   useEffect(() => {
+    getSlangTerms()
+    getTrendSlangs()
+  }, [])
+
+  useEffect(() => {
     const handleStorageChange = () => {
       reloadUserData()
     }
 
     reloadUserData()
-    getSlangTerms()
-    getTrendSlangs()
+    window.addEventListener('storage', handleStorageChange)
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+    }
   }, [])
 
   return (

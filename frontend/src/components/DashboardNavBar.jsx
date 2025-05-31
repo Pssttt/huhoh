@@ -1,9 +1,10 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { useDataContext } from '@/hooks/useDataContext'
+import { Loader2 } from 'lucide-react'
 
 const DashboardNavBar = () => {
-  const location = useLocation()
+  const { userData } = useDataContext()
   const isActive = (path) => location.pathname.startsWith(path)
-
   const navItems = [
     {
       name: 'translations',
@@ -16,6 +17,14 @@ const DashboardNavBar = () => {
       link: '/slangopedia',
     },
   ]
+
+  if (!userData) {
+    return (
+      <div className="flex items-center justify-center h-screen w-screen">
+        <Loader2 className="animate-spin w-12 h-12 text-primary" />
+      </div>
+    )
+  }
 
   return (
     <header className="sticky top-0 z-49 mb-8 flex flex-row justify-between items-center px-6 lg:px-12 py-4 bg-white/80 backdrop-blur-sm border-b border-gray-200/50">
@@ -63,14 +72,11 @@ const DashboardNavBar = () => {
               </li>
             )
           })}
-          <Link to="/profile">
-            <img
-              src={''}
-              // src={userData.profilePic}
-              alt="Profile"
-              className="w-8 h-8 lg:w-16 lg:h-16 rounded-full cursor-pointer"
-            />
-          </Link>
+          <img
+            src={userData.profilePic}
+            alt="Profile"
+            className="w-8 h-8 lg:w-16 lg:h-16 rounded-full cursor-pointer"
+          />
         </ul>
       </nav>
     </header>

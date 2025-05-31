@@ -16,8 +16,8 @@ export const useFetch = () => {
 
   const fetchUserData = async () => {
     try {
-      const res = await api.get(`/auth/info`)
-      return res.data
+      const { data } = await api.get(`/auth/info`)
+      return data.info
     } catch (e) {
       console.error(e)
       setFetchError(e.response.data.message)

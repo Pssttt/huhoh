@@ -100,7 +100,15 @@ const getUserInfo = async (c: Context) => {
     return c.json({ success: false, msg: "Unauthorized" }, 401);
   }
   const user = await userModel.getUserInfo(userId);
-  return c.json({ success: true, data: user, msg: "User info fetched" });
+  const { username, profilePic } = user as {
+    username: string;
+    profilePic: string;
+  };
+  return c.json({
+    success: true,
+    info: { username, profilePic },
+    msg: "User info fetched",
+  });
 };
 
 const signOutUser = async (c: Context) => {
