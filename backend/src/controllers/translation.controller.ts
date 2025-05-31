@@ -115,12 +115,9 @@ const saveTranslation = async (c: Context) => {
 
 const unSaveTranslation = async (c: Context) => {
   const userId = c.get("userId");
-  const translationId = c.req.param("id");
+  const id = c.req.param("id");
 
-  const savedTranslation = await translationModel.unSaveTranslation(
-    translationId,
-    userId
-  );
+  const savedTranslation = await translationModel.unSaveTranslation(id, userId);
   return c.json(savedTranslation, 200);
 };
 

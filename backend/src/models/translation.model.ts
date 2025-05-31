@@ -38,6 +38,7 @@ const getAllSavedTranslationsByUser = async (userId: string) => {
       include: {
         translation: {
           select: {
+            id: true,
             original: true,
             translated: true,
             createdAt: true,
@@ -52,6 +53,7 @@ const getAllSavedTranslationsByUser = async (userId: string) => {
 
   return {
     translations: savedTranslations.map((st) => ({
+      id: st.translation.id,
       original: st.translation.original,
       translated: st.translation.translated,
       createdAt: st.translation.createdAt,
@@ -208,13 +210,13 @@ const saveTranslation = async (id: string, userId: string) => {
 
 const unSaveTranslation = async (id: string, userId: string) => {
   const savedTranslation = await db.savedTranslation.findFirst({
-    where: { translationId: id, userId },
+    where: { id: id, userId },
   });
   if (!savedTranslation) {
     throw new Error("Translation not saved");
   }
   await db.savedTranslation.delete({
-    where: { id: savedTranslation.id },
+    where: { id: id },
   });
   return savedTranslation;
 };
