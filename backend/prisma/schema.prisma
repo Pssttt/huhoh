@@ -6,12 +6,15 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model User {
   id                String             @id @default(uuid())
+  username          String             @unique
   email             String             @unique
   password          String
+  profilePic        String             @default("https://www.pngplay.com/wp-content/uploads/5/Kim-Jong-Un-PNG-Free-File-Download.png")
   createdAt         DateTime           @default(now())
   translations      Translation[]
   savedTranslations SavedTranslation[]
