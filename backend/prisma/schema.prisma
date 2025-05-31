@@ -1,29 +1,65 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id         String  @id @default(cuid())
-  username   String? @unique
-  email      String? @unique
-  profilePic String  @default("https://www.pngplay.com/wp-content/uploads/5/Kim-Jong-Un-PNG-Free-File-Download.png")
-  password   String
+  id                String             @id @default(uuid())
+  email             String             @unique
+  password          String
+  createdAt         DateTime           @default(now())
+  translations      Translation[]
+  savedTranslations SavedTranslation[]
 }
 
-model TranslationLog {
-  id         Int    @id @default(autoincrement())
-  original   String
-  translated String
+model Translation {
+  id                String             @id @default(uuid())
+  original          String
+  translated        String
+  userId            String?
+  createdAt         DateTime           @default(now())
+  user              User?              @relation(fields: [userId], references: [id])
+  slangMentions     SlangMention[]
+  savedTranslations SavedTranslation[]
+}
+
+model SlangTerm {
+  id        String         @id @default(uuid())
+  term      String         @unique
+  meaning   String
+  example   String?
+  origin    String?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  mentions  SlangMention[]
+}
+
+model SlangMention {
+  id            String      @id @default(uuid())
+  slangTermId   String
+  translationId String
+  createdAt     DateTime    @default(now())
+  slangTerm     SlangTerm   @relation(fields: [slangTermId], references: [id])
+  translation   Translation @relation(fields: [translationId], references: [id])
+
+  @@unique([slangTermId, translationId])
+  @@index([createdAt])
+  @@index([slangTermId, createdAt])
+}
+
+model SavedTranslation {
+  id            String      @id @default(uuid())
+  translationId String
+  userId        String?
+  savedAt       DateTime    @default(now())
+  translation   Translation @relation(fields: [translationId], references: [id])
+  user          User?       @relation(fields: [userId], references: [id])
+
+  @@unique([translationId, userId])
+  @@map("saved_translations")
 }
