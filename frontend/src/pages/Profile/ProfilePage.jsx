@@ -1,24 +1,37 @@
 import React from 'react'
 import DashboardNavBar from '@/components/DashboardNavBar'
+import { useDataContext } from '@/hooks/useDataContext'
+import { Loader2 } from 'lucide-react'
 
 const ProfilePage = () => {
+  const { userData } = useDataContext()
+
+  if (!userData) {
+    return (
+      <div className="flex items-center justify-center h-screen w-screen">
+        <Loader2 className="animate-spin w-12 h-12 text-primary" />
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <DashboardNavBar />
-      <main className="flex flex-col items-center py-4 px-4 -mt-20">
+      <main className="flex flex-col items-center py-4 px-4">
         {/* Profile Header */}
         <section className="w-full max-w-3xl bg-white rounded-2xl shadow-md p-8 mb-8">
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
               <img
-                src="/profile-avatar.png"
+                src={userData.profilePic}
                 alt="User avatar"
                 className="w-24 h-24 rounded-full object-cover border-4 border-purple-100"
               />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Sophia</h2>
             <div className="flex flex-col items-center gap-1">
-              <span className="text-gray-500 text-sm">@sophia_codes</span>
+              <h2 className="text-gray-500 text-lg font-bold">
+                {userData.username}
+              </h2>
               <span className="text-gray-400 text-xs">Joined in 2022</span>
             </div>
           </div>

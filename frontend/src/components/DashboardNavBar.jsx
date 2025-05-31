@@ -35,9 +35,12 @@ const DashboardNavBar = () => {
       >
         <div className="relative">
           <img
-            className="rounded-full w-10 h-10 sm:w-12 sm:h-12 transition-transform group-hover:scale-105"
+            className="rounded-full w-10 h-10 sm:w-12 sm:h-12 transition-transform group-hover:scale-105 object-cover"
             alt="HuhOh logo"
             src="/logo.svg"
+            width={48}
+            height={48}
+            loading="lazy"
           />
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 opacity-0 group-hover:opacity-20 transition-opacity"></div>
         </div>
@@ -67,18 +70,28 @@ const DashboardNavBar = () => {
                         ? 'opacity-100'
                         : 'opacity-70 group-hover:opacity-100'
                     }`}
+                    width={24}
+                    height={24}
+                    loading="lazy"
                   />
                 </Link>
               </li>
             )
           })}
-          <Link to="/profile">
-            <img
-              src={userData.profilePic}
-              alt="Profile"
-              className="w-8 h-8 lg:w-16 lg:h-16 rounded-full cursor-pointer"
-            />
-          </Link>
+          <li>
+            <Link to="/profile">
+              <img
+                src={userData.profilePic}
+                alt="Profile"
+                loading="lazy"
+                className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full cursor-pointer object-cover transition-all ${
+                  isActive('/profile')
+                    ? 'border-2 border-primary'
+                    : 'border-2 border-transparent hover:border-purple-200'
+                }`}
+              />
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
