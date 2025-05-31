@@ -8,6 +8,7 @@ import { ArrowRightLeft, Copy, Loader2 } from 'lucide-react'
 import api from '@/services/api'
 import SlangCard from '@/components/SlangCard'
 import { useDataContext } from '@/hooks/useDataContext'
+import { useFetch } from '@/hooks/useFetch'
 
 const TranslationPage = () => {
   const [inputText, setInputText] = useState('')
@@ -16,6 +17,7 @@ const TranslationPage = () => {
   const [isGenZToEnglish, setIsGenZToEnglish] = useState(true)
   const [isTranslating, setIsTranslating] = useState(false)
   const { trendSlangs } = useDataContext()
+  const { saveTranslation } = useFetch()
 
   const handleDirectionToggle = () => {
     setIsGenZToEnglish(!isGenZToEnglish)
@@ -99,7 +101,14 @@ const TranslationPage = () => {
   }
 
   const handleSave = async (id) => {
+    if (!outputText.trim()) {
+      toast.warning('Please enter some text to translate')
+      return
+    }
+
     try {
+      await saveTranslation(id)
+      toast.success('Successfully Saved!')
     } catch (e) {
       console.error(e)
     }

@@ -1,9 +1,34 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDataContext } from '@/hooks/useDataContext'
 import { Loader2 } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 const DashboardNavBar = () => {
   const { userData } = useDataContext()
+
+  const menuRef = useRef(null)
+  const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false)
+      }
+    }
+    if (menuOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [menuOpen])
+
+  const handleSignOut = () => {
+    // Clear tokens or user data here if needed
+    navigate('/signin')
+  }
+
   const isActive = (path) => location.pathname.startsWith(path)
   const navItems = [
     {
@@ -79,18 +104,45 @@ const DashboardNavBar = () => {
             )
           })}
           <li>
-            <Link to="/profile">
-              <img
-                src={userData.profilePic}
-                alt="Profile"
-                loading="lazy"
-                className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full cursor-pointer object-cover transition-all ${
-                  isActive('/profile')
-                    ? 'border-2 border-primary'
-                    : 'border-2 border-transparent hover:border-purple-200'
-                }`}
-              />
-            </Link>
+            <img
+              src={userData.profilePic}
+              alt="Profile"
+              loading="lazy"
+              onClick={() => setMenuOpen((open) => !open)}
+              className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full cursor-pointer object-cover transition-all ${
+                isActive('/profile')
+                  ? 'border-2 border-primary'
+                  : 'border-2 border-transparent hover:border-purple-200'
+              }`}
+            />
+            {menuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                <button
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  onClick={() => {
+                    setMenuOpen(false)
+                    navigate('/profile')
+                  }}
+                >
+                  View Profile Page
+                </button>
+                <button
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  onClick={() => {
+                    setMenuOpen(false)
+                    navigate('/profile/edit')
+                  }}
+                >
+                  Edit Profile Page
+                </button>
+                <button
+                  className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
+                  onClick={handleSignOut}
+                >
+                  Sign Out
+                </button>
+              </div>
+            )}
           </li>
         </ul>
       </nav>

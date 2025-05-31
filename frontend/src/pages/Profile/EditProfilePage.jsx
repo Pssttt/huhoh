@@ -2,9 +2,9 @@ import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import ProfileNavBar from '@/components/ProfileNavBar'
 import api from '@/services/api'
 import { toast } from 'sonner'
+import DashboardNavBar from '@/components/DashboardNavBar'
 
 const EditProfilePage = () => {
   const [formData, setFormData] = useState({
@@ -47,7 +47,7 @@ const EditProfilePage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <ProfileNavBar />
+      <DashboardNavBar />
 
       <div className="max-w-md mx-auto p-6 pt-10">
         {/* Profile Picture Upload */}

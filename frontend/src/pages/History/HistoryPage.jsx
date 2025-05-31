@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import ProfileNavBar from '@/components/ProfileNavBar'
 import api from '@/services/api'
+import DashboardNavBar from '@/components/DashboardNavBar'
 
 // Date formatting utility
 const formatDate = (dateString) => {
@@ -60,6 +60,7 @@ const HistoryPage = () => {
         const res = await api.get('/translations/all')
         setHistory(res.data[0] || [])
       } catch (e) {
+        console.error(e)
         setHistory([])
       }
     }
@@ -68,7 +69,7 @@ const HistoryPage = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <ProfileNavBar />
+      <DashboardNavBar />
       <main className="flex flex-col items-center py-8 px-4">
         <section className="w-full max-w-3xl bg-white rounded-2xl shadow-md p-8">
           <h2 className="text-2xl font-bold mb-6 text-center">

@@ -37,7 +37,7 @@ export const useFetch = () => {
   const saveTranslation = async (id) => {
     try {
       const res = await api.post(`/translations/save/${id}`)
-      console.log(res)
+      return res.data
     } catch (e) {
       console.error(e)
       setFetchError(e.response.data.message)
