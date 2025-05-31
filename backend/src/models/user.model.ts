@@ -76,7 +76,7 @@ const updateUser = async (
     data: updateData,
     select: {
       username: true,
-      profilepic: true,
+      profilePic: true,
       password: true,
     },
   });
