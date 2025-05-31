@@ -165,6 +165,58 @@ const deleteTranslation = async (id: string) => {
   return deletedTranslation;
 };
 
+const getTrendingSlang = async () => {
+  const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+
+  const topMentions = await db.slangMention.groupBy({
+    by: ["slangTermId"],
+    where: {
+      createdAt: {
+        gte: twentyFourHoursAgo,
+      },
+    },
+    _count: {
+      slangTermId: true,
+    },
+    orderBy: {
+      _count: {
+        slangTermId: "desc",
+      },
+    },
+    take: 5,
+  });
+
+  const trendingIds = topMentions.map((entry) => entry.slangTermId);
+
+  const trendingSlangs = await db.slangTerm.findMany({
+    where: {
+      id: { in: trendingIds },
+    },
+    select: {
+      id: true,
+      term: true,
+      meaning: true,
+      example: true,
+      origin: true,
+    },
+  });
+
+  const slangMap = new Map(trendingSlangs.map((slang) => [slang.id, slang]));
+
+  const withCounts = topMentions
+    .map((mention) => {
+      const slang = slangMap.get(mention.slangTermId);
+      return {
+        ...slang,
+        count: mention._count.slangTermId,
+      };
+    })
+    .filter(Boolean)
+    .sort((a, b) => b.count - a.count);
+
+  return withCounts;
+};
+
 export {
   getTranslationById,
   getAllTranslationsByUser,
@@ -172,4 +224,5 @@ export {
   saveTranslation,
   deleteTranslation,
   getOrCreateSlangTermIds,
+  getTrendingSlang,
 };
