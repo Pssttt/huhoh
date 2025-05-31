@@ -1,5 +1,6 @@
 import React from 'react'
 import LandingPage from './pages/Landing/LandingPage'
+import SignUp from './pages/SignUp/SignUpPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import TranslationPage from './pages/Translation/TranslationPage'
