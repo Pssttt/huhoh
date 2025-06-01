@@ -18,9 +18,11 @@ const formatDate = (dateString) => {
 const HistoryTableHead = () => (
   <thead>
     <tr className="bg-gray-50">
-      <th className="px-4 py-2 text-left font-medium text-gray-700">Slang</th>
       <th className="px-4 py-2 text-left font-medium text-gray-700">
-        Explanation
+        Original
+      </th>
+      <th className="px-4 py-2 text-left font-medium text-gray-700">
+        Translation
       </th>
       <th className="px-4 py-2 text-left font-medium text-gray-700">Date</th>
     </tr>

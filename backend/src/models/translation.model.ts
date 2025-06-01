@@ -20,6 +20,9 @@ const getAllTranslationsByUser = async (userId: string) => {
   const translations = await Promise.all([
     db.translation.findMany({
       where: { userId },
+      orderBy: {
+        createdAt: "desc",
+      },
       select: {
         id: true,
         original: true,
@@ -35,6 +38,9 @@ const getAllSavedTranslationsByUser = async (userId: string) => {
   const [savedTranslations, totalCount] = await Promise.all([
     db.savedTranslation.findMany({
       where: { userId },
+      orderBy: {
+        savedAt: "desc",
+      },
       include: {
         translation: {
           select: {

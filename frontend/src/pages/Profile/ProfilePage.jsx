@@ -20,7 +20,10 @@ const ProfilePage = () => {
     )
   }
 
-  if (!allSavedTranslations) {
+  if (
+    !allSavedTranslations ||
+    !Array.isArray(allSavedTranslations.translations)
+  ) {
     return (
       <div className="flex items-center justify-center h-screen w-screen">
         <Loader2 className="animate-spin w-12 h-12 text-primary" />
@@ -39,11 +42,11 @@ const ProfilePage = () => {
               <img
                 src={userData.profilePic}
                 alt="User avatar"
-                className="w-24 h-24 rounded-full object-cover border-4 border-purple-100"
+                className="w-30 h-30 rounded-full object-cover border-4 border-purple-100"
               />
             </div>
             <div className="flex flex-col items-center gap-1">
-              <h2 className="text-gray-500 text-lg font-bold">
+              <h2 className="text-gray-500 text-4xl font-bold">
                 {userData.username}
               </h2>
               <span className="text-gray-400 text-xs">Joined in 2022</span>
@@ -52,7 +55,7 @@ const ProfilePage = () => {
           {/* Stats */}
           <div className="flex justify-center mt-8">
             <div className="bg-gray-50 rounded-xl px-85 py-6 flex flex-col items-center shadow w-full max-w-md">
-              <span className="text-gray-500 text-base">Total</span>
+              <span className="text-gray-500 text-4xl">Total</span>
               <span className="text-4xl font-bold text-purple-600">
                 {allSavedTranslations.totalCount}
               </span>
@@ -63,27 +66,36 @@ const ProfilePage = () => {
         {/* Saved Translations */}
         <section className="w-full max-w-3xl bg-white rounded-2xl shadow-md p-8">
           <h3 className="text-lg font-semibold mb-4">Saved Translations</h3>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border border-gray-200 rounded-lg">
+          <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
+            <table className="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr className="bg-gray-50">
-                  <th className="px-4 py-2 text-left font-medium text-gray-700">
-                    Slang
+                  <th className="px-6 py-4 text-left text-md font-semibold text-gray-700 tracking-wide">
+                    Original
                   </th>
-                  <th className="px-4 py-2 text-left font-medium text-gray-700">
+                  <th className="px-6 py-4 text-left text-md font-semibold text-gray-700 tracking-wide">
                     Translation
                   </th>
-                  <th className="px-4 py-2 text-left font-medium text-gray-700">
+                  <th className="px-6 py-4 text-left text-md font-semibold text-gray-700 tracking-wide">
                     Saved On
                   </th>
                 </tr>
               </thead>
-              <tbody>
-                {allSavedTranslations.translations.map((translation) => (
-                  <tr key={translation.id} className="border-t">
-                    <td className="px-4 py-2">{translation.original}</td>
-                    <td className="px-4 py-2">{translation.translated}</td>
-                    <td className="px-4 py-2 text-sm text-gray-500">
+              <tbody className="bg-white divide-y divide-gray-200">
+                {allSavedTranslations.translations.map((translation, index) => (
+                  <tr
+                    key={translation.id}
+                    className={`hover:bg-gray-50 transition-colors duration-150 ease-in-out ${
+                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'
+                    }`}
+                  >
+                    <td className="px-6 py-4 text-md text-gray-900 whitespace-normal">
+                      {translation.original}
+                    </td>
+                    <td className="px-6 py-4 text-md text-gray-900 whitespace-normal">
+                      {translation.translated}
+                    </td>
+                    <td className="px-6 py-4 text-md text-gray-500 whitespace-nowrap">
                       {new Date(translation.createdAt).toLocaleDateString()}
                     </td>
                   </tr>
