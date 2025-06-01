@@ -1,8 +1,10 @@
 import { Button } from '@/components/ui/button'
-import { Input } from '../ui/input'
+import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 const HeroSection = () => {
+  const navigate = useNavigate()
   return (
     <section className="px-6 lg:px-12 py-16 lg:py-24">
       <div className="max-w-7xl mx-auto">
@@ -35,20 +37,23 @@ const HeroSection = () => {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 items-start">
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-2 top-5 " />
+            <div className="flex flex-col gap-4 items-start">
+              <div className="relative flex-1 w-full max-w-md">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
                 <Input
                   type="text"
                   placeholder="Enter slang or standard English"
-                  className="w-full h-16 px-12 py-3 pr-12 rounded-lg border-0 bg-[#EDE8F2] focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
+                  className="w-full h-16 pl-12 pr-4 py-3 rounded-lg border-0 bg-[#EDE8F2] focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
                 />
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <Button className="w-36 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-                    Decode Now
-                  </Button>
-                </div>
               </div>
+              <Button
+                className="w-full sm:w-auto px-8 py-4 h-16 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+                onClick={() => {
+                  navigate('/signup')
+                }}
+              >
+                Decode Now
+              </Button>
             </div>
           </div>
         </div>
