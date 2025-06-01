@@ -17,33 +17,42 @@ const formatDate = (dateString) => {
 // Table Headings
 const HistoryTableHead = () => (
   <thead>
-    <tr className="bg-gray-50">
-      <th className="px-4 py-2 text-left font-medium text-gray-700">
+    <tr className="bg-gray-100">
+      <th className="px-6 py-4 text-left text-xl font-semibold text-gray-700 uppercase tracking-wider">
         Original
       </th>
-      <th className="px-4 py-2 text-left font-medium text-gray-700">
+      <th className="px-6 py-4 text-left text-xl font-semibold text-gray-700 uppercase tracking-wider">
         Translation
       </th>
-      <th className="px-4 py-2 text-left font-medium text-gray-700">Date</th>
+      <th className="px-6 py-4 text-left text-xl font-semibold text-gray-700 uppercase tracking-wider">
+        Date
+      </th>
     </tr>
   </thead>
 )
 
 // Table Body
 const HistoryTableBody = ({ history }) => (
-  <tbody>
+  <tbody className="divide-y divide-gray-200">
     {history.length === 0 ? (
       <tr>
-        <td colSpan={3} className="text-center py-8 text-gray-400">
+        <td colSpan={3} className="text-center py-12 text-gray-500 italic">
           No history found.
         </td>
       </tr>
     ) : (
       history.map((item) => (
-        <tr key={item.id} className="border-t">
-          <td className="px-4 py-2">{item.original}</td>
-          <td className="px-4 py-2">{item.translated}</td>
-          <td className="px-4 py-2">
+        <tr
+          key={item.id}
+          className="hover:bg-gray-50 transition-colors duration-150 ease-in-out"
+        >
+          <td className="px-6 py-4 text-md text-gray-900 whitespace-pre-wrap">
+            {item.original}
+          </td>
+          <td className="px-6 py-4 text-md text-gray-900 whitespace-pre-wrap">
+            {item.translated}
+          </td>
+          <td className="px-6 py-4 text-md text-gray-500">
             {item.createdAt ? formatDate(item.createdAt) : '-'}
           </td>
         </tr>
@@ -73,12 +82,12 @@ const HistoryPage = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <DashboardNavBar />
       <main className="flex flex-col items-center py-8 px-4">
-        <section className="w-full max-w-3xl bg-white rounded-2xl shadow-md p-8">
-          <h2 className="text-2xl font-bold mb-6 text-center">
+        <section className="w-full max-w-4xl bg-white rounded-xl shadow-lg p-8">
+          <h2 className="text-4xl font-bold mb-8 text-center text-gray-800">
             Translation History
           </h2>
-          <div className="overflow-x-auto">
-            <table className="min-w-full border border-gray-200 rounded-lg">
+          <div className="overflow-x-auto rounded-lg border border-gray-200">
+            <table className="min-w-full divide-y divide-gray-200">
               <HistoryTableHead />
               <HistoryTableBody history={history} />
             </table>
