@@ -234,13 +234,13 @@ const saveTranslation = async (id: string, userId: string) => {
 
 const unSaveTranslation = async (id: string, userId: string) => {
   const savedTranslation = await db.savedTranslation.findFirst({
-    where: { id: id, userId },
+    where: { translationId: id, userId },
   });
   if (!savedTranslation) {
     throw new Error("Translation not saved");
   }
   await db.savedTranslation.delete({
-    where: { id: id },
+    where: { id: savedTranslation.id },
   });
   return savedTranslation;
 };
