@@ -46,7 +46,10 @@ const HeroSection = () => {
                   className="w-full placeholder:text-sm h-16 pl-12 pr-4 py-3 rounded-lg border-0 bg-[#EDE8F2] focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all"
                 />
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <Button className="w-36 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
+                  <Button
+                    className="w-36 h-12 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+                    onClick={() => navigate('/signup')}
+                  >
                     Decode Now
                   </Button>
                 </div>
