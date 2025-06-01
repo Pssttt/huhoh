@@ -9,6 +9,7 @@ import ProfilePage from './pages/Profile/ProfilePage'
 import SlangopediaPage from './pages/Slangopedia/SlangopediaPage'
 import EditProfilePage from './pages/Profile/EditProfilePage'
 import HistoryPage from './pages/History/HistoryPage'
+import { publicRouteLoader, protectedRouteLoader } from './services/auth'
 
 const LoadingFallback = () => (
   <div className="flex justify-center items-center h-screen">
@@ -20,34 +21,42 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage />,
+    loader: publicRouteLoader,
   },
   {
     path: '/signup',
     element: <SignUpPage />,
+    loader: publicRouteLoader,
   },
   {
     path: '/signin',
     element: <SignInPage />,
+    loader: publicRouteLoader,
   },
   {
     path: '/translations',
     element: <TranslationPage />,
+    loader: protectedRouteLoader,
   },
   {
     path: '/slangopedia',
     element: <SlangopediaPage />,
+    loader: protectedRouteLoader,
   },
   {
     path: '/profile',
     element: <ProfilePage />,
+    loader: protectedRouteLoader,
   },
   {
     path: '/profile/edit',
     element: <EditProfilePage />,
+    loader: protectedRouteLoader,
   },
   {
     path: '/profile/history',
     element: <HistoryPage />,
+    loader: protectedRouteLoader,
   },
 ])
 
