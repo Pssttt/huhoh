@@ -4,10 +4,8 @@ import { verifyAuth } from "../middlewares/verifyAuth.ts";
 
 const translationRouter = new Hono();
 
-// Demo translation endpoint - no auth required
 translationRouter.post("/demo", translationController.getDemoTranslation);
 
-// Protected routes
 translationRouter.use(verifyAuth);
 
 translationRouter.get("/all", translationController.getAllTranslationsByUser);
