@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 const LandingNavBar = () => {
   return (
     <header className="flex flex-row justify-between items-center px-6 lg:px-12 py-4 bg-white/80 backdrop-blur-sm border-b border-gray-200/50">
-      <a href="#" aria-label="Logo" className="flex items-center gap-3 group">
+      <a href="/" aria-label="Logo" className="flex items-center gap-3 group">
         <div className="relative">
           <img
             className="rounded-full w-10 h-10 sm:w-12 sm:h-12 transition-transform group-hover:scale-105"

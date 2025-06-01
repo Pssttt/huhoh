@@ -92,6 +92,35 @@ const createEnToZTranslation = async (c: Context) => {
   }
 };
 
+const getDemoTranslation = async (c: Context) => {
+  try {
+    const response = await generateZtoENTranslation(c);
+    const { output } = await response.json();
+
+    if (!output) {
+      throw new Error("Failed to get translation");
+    }
+
+    return c.json(
+      {
+        original: output.original,
+        translated: output.translated,
+        slang: output.slang,
+      },
+      200
+    );
+  } catch (error) {
+    console.error("Demo translation error:", error);
+    return c.json(
+      {
+        error: "Failed to generate translation",
+        detail: error instanceof Error ? error.message : "Unknown error",
+      },
+      500
+    );
+  }
+};
+
 const saveTranslation = async (c: Context) => {
   try {
     const userId = c.get("userId");
@@ -176,6 +205,7 @@ const getAllSlangTerms = async (c: Context) => {
 export {
   createZtoENTranslation,
   createEnToZTranslation,
+  getDemoTranslation,
   saveTranslation,
   unSaveTranslation,
   deleteTranslation,

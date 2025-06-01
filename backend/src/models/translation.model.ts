@@ -1,5 +1,9 @@
 import db from "../lib/db.ts";
-import type { CreateTranslationBody, SlangTerm } from "../types/index.ts";
+import type {
+  CreateDemoTranslationBody,
+  CreateTranslationBody,
+  SlangTerm,
+} from "../types/index.ts";
 
 const getTranslationById = async (id: string) => {
   const translation = await db.translation.findUnique({

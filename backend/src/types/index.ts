@@ -9,6 +9,11 @@ export interface CreateTranslationBody {
   userId: string;
 }
 
+export interface CreateDemoTranslationBody {
+  original: string;
+  translated: string;
+}
+
 export interface SlangTerm {
   term: string;
   meaning: string;
