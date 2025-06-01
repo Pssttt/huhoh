@@ -207,7 +207,7 @@ const DashboardNavBar = () => {
       {/* Mobile Profile Menu Modal */}
       {menuOpen && (
         <div
-          className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-50"
+          className="md:hidden fixed inset-0 z-50 bg-black/80 bg-opacity-50"
           onClick={() => setMenuOpen(false)}
         >
           <div
@@ -231,8 +231,8 @@ const DashboardNavBar = () => {
               <button
                 className="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
                 onClick={() => {
-                  navigate('/profile')
                   setMenuOpen(false)
+                  navigate('/profile')
                 }}
               >
                 View Profile Page
