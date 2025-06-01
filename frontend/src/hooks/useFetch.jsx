@@ -56,7 +56,6 @@ export const useFetch = () => {
   const fetchAllSavedTranslations = async () => {
     try {
       const res = await api.get(`/translations/saved`)
-      console.log(res.data)
       return res.data
     } catch (e) {
       console.error(e)
