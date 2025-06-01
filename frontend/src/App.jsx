@@ -12,6 +12,9 @@ import EditProfilePage from './pages/Profile/EditProfilePage'
 import HistoryPage from './pages/History/HistoryPage'
 import DemoPage from './pages/Demo/DemoPage'
 import SharedTranslation from './pages/SharedTranslation/SharedTranslation'
+import TermsPage from './pages/Footer/TermsPage'
+import PrivacyPage from './pages/Footer/PrivacyPage'
+import ContactPage from './pages/Footer/ContactPage'
 
 const LoadingFallback = () => (
   <div className="flex justify-center items-center h-screen">
@@ -68,6 +71,18 @@ const router = createBrowserRouter([
     path: '/profile/history',
     element: <HistoryPage />,
     loader: protectedRouteLoader,
+  },
+  {
+    path: '/terms',
+    element: <TermsPage />,
+  },
+  {
+    path: '/privacy',
+    element: <PrivacyPage />,
+  },
+  {
+    path: '/contact',
+    element: <ContactPage />,
   },
 ])
 

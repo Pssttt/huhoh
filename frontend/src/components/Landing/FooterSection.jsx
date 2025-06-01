@@ -3,19 +3,19 @@ const FooterSection = () => {
     <footer className="px-6 lg:px-12 py-12 bg-gray-900">
       <div className="flex flex-col md:flex-row md:justify-around gap-6">
         <a
-          href="#"
+          href="/terms"
           className="w-32 text-gray-300 hover:text-white transition-colors duration-200"
         >
           Terms of Service
         </a>
         <a
-          href="#"
+          href="/privacy"
           className="w-32 text-gray-300 hover:text-white transition-colors duration-200"
         >
           Privacy Policy
         </a>
         <a
-          href="#"
+          href="/contact"
           className="w-32 text-gray-300 hover:text-white transition-colors duration-200"
         >
           Contact Us
