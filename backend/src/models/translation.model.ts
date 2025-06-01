@@ -106,7 +106,7 @@ const getOrCreateSlangTermIds = async (slangTerms: SlangTerm[]) => {
         },
       });
       return term.id;
-    })
+    }),
   );
   return slangTermIds;
 };
@@ -138,7 +138,7 @@ const getAllSlangTerms = async () => {
 
 const createZtoENTranslation = async (
   data: CreateTranslationBody,
-  slangTerms: SlangTerm[]
+  slangTerms: SlangTerm[],
 ) => {
   const slangTermIds = await getOrCreateSlangTermIds(slangTerms);
 
@@ -170,7 +170,7 @@ const createZtoENTranslation = async (
 
 const createENtoZTranslation = async (
   data: CreateTranslationBody,
-  slangTerms: SlangTerm[]
+  slangTerms: SlangTerm[],
 ) => {
   const slangTermIds = await getOrCreateSlangTermIds(slangTerms);
 
@@ -247,6 +247,12 @@ const unSaveTranslation = async (id: string, userId: string) => {
     where: { id: savedTranslation.id },
   });
   return savedTranslation;
+};
+
+const getSharedTranslation = async (id: string) => {
+  const sharedTranslation = await db.translation.findUnique({ where: { id } });
+
+  return sharedTranslation;
 };
 
 const deleteTranslation = async (id: string) => {
@@ -358,4 +364,5 @@ export {
   getSlangTermById,
   getAllSlangTerms,
   getTrendingSlang,
+  getSharedTranslation,
 };

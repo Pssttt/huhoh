@@ -10,6 +10,9 @@ import { useFetch } from '@/hooks/useFetch'
 import { Loader2, Eye, EyeOff } from 'lucide-react'
 import { toast } from 'sonner'
 import DashboardNavBar from '@/components/DashboardNavBar'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 const EditUserAccount = () => {
   const { userData, setUserData, reloadUserData } = useDataContext()
@@ -25,6 +28,21 @@ const EditUserAccount = () => {
   const [initialLoading, setInitialLoading] = useState(!userData)
   const fileInputRef = useRef()
   const navigate = useNavigate()
+
+  const formSchema = z.object({
+    newPassword: z
+      .string()
+      .min(6, 'Password must be at least 6 characters')
+      .optional(),
+  })
+
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(formSchema),
+    mode: 'onChange',
+  })
 
   useEffect(() => {
     if (userData) {
@@ -57,8 +75,7 @@ const EditUserAccount = () => {
     }
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault()
+  const onFormSubmit = async () => {
     setLoading(true)
 
     try {
@@ -119,7 +136,7 @@ const EditUserAccount = () => {
       <h2 className="text-2xl font-bold ml-12">Edit Profile</h2>
       <div className="flex flex-1 items-center justify-center">
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onFormSubmit)}
           className="bg-white rounded-3xl shadow-xl p-10 flex flex-col items-center gap-6 w-[400px] mb-8"
         >
           <div className="flex flex-col items-center">

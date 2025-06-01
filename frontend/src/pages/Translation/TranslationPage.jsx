@@ -4,7 +4,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { toast } from 'sonner'
-import { ArrowRightLeft, Copy, Loader2 } from 'lucide-react'
+import { ArrowRightLeft, Copy, Loader2, Share } from 'lucide-react'
 import api from '@/services/api'
 import SlangCard from '@/components/SlangCard'
 import { useDataContext } from '@/hooks/useDataContext'
@@ -16,14 +16,15 @@ const TranslationPage = () => {
   const [id, setId] = useState('')
   const [isGenZToEnglish, setIsGenZToEnglish] = useState(true)
   const [isTranslating, setIsTranslating] = useState(false)
+  const [isSharing, setIsSharing] = useState(false)
   const { trendSlangs, getAllSavedTranslations } = useDataContext()
   const { saveTranslation } = useFetch()
 
   const handleDirectionToggle = () => {
     setIsGenZToEnglish(!isGenZToEnglish)
-
     setInputText('')
     setOutputText('')
+    setId('')
   }
 
   const handleCopy = (text, label) => {
@@ -116,14 +117,43 @@ const TranslationPage = () => {
     }
   }
 
-  // TODO: add share btn with shadcn
-  // const handleShare = async () => {
-  //   try {
-  //   } catch (e) {
-  //     toast.error('Share failed. Please try again.')
-  //     console.error('Share error:', e)
-  //   }
-  // }
+  const handleShare = async () => {
+    if (!outputText.trim() || !id) {
+      toast.warning('Please translate some text first')
+      return
+    }
+
+    try {
+      setIsSharing(true)
+
+      const shareUrl = `${window.location.origin}/translate/${id}`
+
+      if (navigator.share) {
+        await navigator.share({
+          title: 'HuhOh Translation',
+          text: `Check out this translation: "${inputText}" → "${outputText}"`,
+          url: shareUrl,
+        })
+        toast.success('Translation shared successfully!')
+      } else {
+        await navigator.clipboard.writeText(shareUrl)
+        toast.success('Share link copied to clipboard!')
+      }
+    } catch (error) {
+      console.error('Share error:', error)
+
+      try {
+        const shareUrl = `${window.location.origin}/translate/${id}`
+        await navigator.clipboard.writeText(shareUrl)
+        toast.success('Share link copied to clipboard!')
+      } catch (clipboardError) {
+        toast.error('Failed to share translation')
+        console.error('Clipboard error:', clipboardError)
+      }
+    } finally {
+      setIsSharing(false)
+    }
+  }
 
   if (!trendSlangs)
     return (
@@ -181,7 +211,7 @@ const TranslationPage = () => {
         <div className="flex flex-col w-full lg:max-w-lg">
           <div className="flex justify-between items-center mb-4">
             <Label
-              htmlFor="input"
+              htmlFor="output"
               className="font-bold text-2xl sm:text-3xl lg:text-4xl"
             >
               {outputLabel}
@@ -207,10 +237,22 @@ const TranslationPage = () => {
               variant="secondary"
               onClick={() => handleSave(id)}
               className="lg:w-24"
+              disabled={!outputText.trim() || !id}
             >
               Save
             </Button>
-            <Button className="lg:w-24">Share</Button>
+            <Button
+              className="lg:w-24"
+              onClick={handleShare}
+              disabled={!outputText.trim() || !id || isSharing}
+            >
+              {isSharing ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <Share className="w-4 h-4" />
+              )}
+              {isSharing ? 'Sharing...' : 'Share'}
+            </Button>
           </div>
         </div>
       </div>

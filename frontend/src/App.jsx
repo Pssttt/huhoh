@@ -1,5 +1,6 @@
 import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { publicRouteLoader, protectedRouteLoader } from './services/auth'
 import { Loader2 } from 'lucide-react'
 import TranslationPage from './pages/Translation/TranslationPage'
 import LandingPage from './pages/Landing/LandingPage'
@@ -9,8 +10,8 @@ import ProfilePage from './pages/Profile/ProfilePage'
 import SlangopediaPage from './pages/Slangopedia/SlangopediaPage'
 import EditProfilePage from './pages/Profile/EditProfilePage'
 import HistoryPage from './pages/History/HistoryPage'
-import { publicRouteLoader, protectedRouteLoader } from './services/auth'
 import DemoPage from './pages/Demo/DemoPage'
+import SharedTranslation from './pages/SharedTranslation/SharedTranslation'
 
 const LoadingFallback = () => (
   <div className="flex justify-center items-center h-screen">
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
     path: '/signin',
     element: <SignInPage />,
     loader: publicRouteLoader,
+  },
+  {
+    path: '/translate/:id',
+    element: <SharedTranslation />,
   },
   {
     path: '/translations',

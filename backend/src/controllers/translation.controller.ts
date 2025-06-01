@@ -33,7 +33,7 @@ const createZtoENTranslation = async (c: Context) => {
 
     const translation = await translationModel.createZtoENTranslation(
       translationData,
-      output.slang
+      output.slang,
     );
 
     return c.json(translation, 201);
@@ -44,7 +44,7 @@ const createZtoENTranslation = async (c: Context) => {
         error: "Failed to create translation",
         detail: error instanceof Error ? error.message : "Unknown error",
       },
-      500
+      500,
     );
   }
 };
@@ -76,7 +76,7 @@ const createEnToZTranslation = async (c: Context) => {
 
     const translation = await translationModel.createZtoENTranslation(
       translationData,
-      output.slang
+      output.slang,
     );
 
     return c.json(translation, 201);
@@ -87,7 +87,7 @@ const createEnToZTranslation = async (c: Context) => {
         error: "Failed to create translation",
         detail: error instanceof Error ? error.message : "Unknown error",
       },
-      500
+      500,
     );
   }
 };
@@ -132,7 +132,7 @@ const saveTranslation = async (c: Context) => {
 
     const savedTranslation = await translationModel.saveTranslation(
       translationId,
-      userId
+      userId,
     );
 
     return c.json(savedTranslation, 201);
@@ -158,9 +158,8 @@ const deleteTranslation = async (c: Context) => {
       return c.json({ error: "Translation ID is required" }, 400);
     }
 
-    const deletedTranslation = await translationModel.deleteTranslation(
-      translationId
-    );
+    const deletedTranslation =
+      await translationModel.deleteTranslation(translationId);
     return c.json(deletedTranslation, 200);
   } catch (error) {
     console.error("Translation delete error:", error);
@@ -175,9 +174,8 @@ const getTrendingSlang = async (c: Context) => {
 
 const getAllTranslationsByUser = async (c: Context) => {
   const userId = c.get("userId");
-  const allTranslations = await translationModel.getAllTranslationsByUser(
-    userId
-  );
+  const allTranslations =
+    await translationModel.getAllTranslationsByUser(userId);
   return c.json(allTranslations, 200);
 };
 
@@ -202,6 +200,27 @@ const getAllSlangTerms = async (c: Context) => {
   return c.json(slangTerms, 200);
 };
 
+const getSharedTranslation = async (c: Context) => {
+  const id = c.req.param("id");
+  try {
+    const translation = await translationModel.getSharedTranslation(id);
+
+    if (!translation) {
+      return c.json({ error: "Translation not found" }, 404);
+    }
+
+    return c.json({
+      id: translation.id,
+      original: translation.original,
+      translated: translation.translated,
+      createdAt: translation.createdAt,
+    });
+  } catch (e) {
+    console.error("Error fetching translation:", e);
+    return c.json({ error: "Internal server error" }, 500);
+  }
+};
+
 export {
   createZtoENTranslation,
   createEnToZTranslation,
@@ -214,4 +233,5 @@ export {
   getAllSavedTranslationsByUser,
   getSlangTermById,
   getAllSlangTerms,
+  getSharedTranslation,
 };
