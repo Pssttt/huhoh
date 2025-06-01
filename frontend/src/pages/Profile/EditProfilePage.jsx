@@ -1,25 +1,34 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDataContext } from '@/hooks/useDataContext'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { toast } from 'sonner'
+import { Loader2, Eye, EyeOff } from 'lucide-react'
+
+import DashboardNavBar from '@/components/DashboardNavBar'
 import FormField from '@/components/FormField'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { useDataContext } from '@/hooks/useDataContext'
+import { useFetch } from '@/hooks/useFetch'
 import api from '@/services/api'
 import { clearAuthData } from '@/services/auth'
-import { useFetch } from '@/hooks/useFetch'
-import { Loader2, Eye, EyeOff } from 'lucide-react'
-import { toast } from 'sonner'
-import DashboardNavBar from '@/components/DashboardNavBar'
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
+
+const formSchema = z.object({
+  newPassword: z
+    .string()
+    .min(6, 'Password must be at least 6 characters')
+    .optional(),
+})
 
 const EditUserAccount = () => {
   const { userData, setUserData, reloadUserData } = useDataContext()
   const { fetchUserData } = useFetch()
+  const navigate = useNavigate()
+
   const [username, setUsername] = useState('')
   const [oldPassword, setOldPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
   const [showOldPassword, setShowOldPassword] = useState(false)
   const [showNewPassword, setShowNewPassword] = useState(false)
   const [profilePic, setProfilePic] = useState(null)
@@ -27,16 +36,9 @@ const EditUserAccount = () => {
   const [loading, setLoading] = useState(false)
   const [initialLoading, setInitialLoading] = useState(!userData)
   const fileInputRef = useRef()
-  const navigate = useNavigate()
-
-  const formSchema = z.object({
-    newPassword: z
-      .string()
-      .min(6, 'Password must be at least 6 characters')
-      .optional(),
-  })
 
   const {
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -75,19 +77,16 @@ const EditUserAccount = () => {
     }
   }
 
-  const onFormSubmit = async () => {
+  const onFormSubmit = async (data) => {
     setLoading(true)
 
     try {
       const formData = new FormData()
+      formData.append('username', username)
 
-      if (username) {
-        formData.append('username', username)
-      }
-
-      if (oldPassword && newPassword) {
+      if (oldPassword && data.newPassword) {
         formData.append('oldPassword', oldPassword)
-        formData.append('newPassword', newPassword)
+        formData.append('newPassword', data.newPassword)
       }
 
       if (profilePic instanceof File) {
@@ -101,7 +100,7 @@ const EditUserAccount = () => {
         setUserData(updated.data)
         toast.success('Profile updated!')
 
-        if (oldPassword && newPassword) {
+        if (oldPassword && data.newPassword) {
           await clearAuthData()
           toast.success('Please login with your new password')
           navigate('/signin')
@@ -156,6 +155,7 @@ const EditUserAccount = () => {
             />
             <span className="text-xs text-gray-500">Click image to change</span>
           </div>
+
           <FormField
             id="username"
             label={null}
@@ -165,13 +165,14 @@ const EditUserAccount = () => {
             placeholder="Username"
             required
           />
+
           <div className="relative w-80">
             <Input
               type={showOldPassword ? 'text' : 'password'}
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
               placeholder="Old Password"
-              className="bg-input-background w-full h-12 border-0 rounded-xl ring-primary selection:text-white pr-10"
+              className="w-full h-12 border-0 rounded-xl pr-10"
             />
             <button
               type="button"
@@ -181,13 +182,13 @@ const EditUserAccount = () => {
               {showOldPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
+
           <div className="relative w-80">
             <Input
               type={showNewPassword ? 'text' : 'password'}
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
+              {...register('newPassword')}
               placeholder="New Password"
-              className="bg-input-background w-full h-12 border-0 rounded-xl ring-primary selection:text-white pr-10"
+              className="w-full h-12 border-0 rounded-xl pr-10"
             />
             <button
               type="button"
@@ -197,6 +198,12 @@ const EditUserAccount = () => {
               {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
           </div>
+          {errors.newPassword && (
+            <p className="text-sm text-red-500 mt-1">
+              {errors.newPassword.message}
+            </p>
+          )}
+
           <div className="flex gap-4 mt-2 w-full justify-center">
             <Button
               type="button"
