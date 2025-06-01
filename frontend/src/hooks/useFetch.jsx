@@ -43,6 +43,16 @@ export const useFetch = () => {
     }
   }
 
+  const unsaveTranslation = async (id) => {
+    try {
+      const res = await api.delete(`/translations/unsave/${id}`)
+      return res.data
+    } catch (e) {
+      console.error(e)
+      setFetchError(e.response.data.message)
+    }
+  }
+
   const fetchAllSavedTranslations = async () => {
     try {
       const res = await api.get(`/translations/saved`)
@@ -60,6 +70,7 @@ export const useFetch = () => {
     fetchError,
     fetchTrendSlangs,
     saveTranslation,
+    unsaveTranslation,
     fetchAllSavedTranslations,
   }
 }

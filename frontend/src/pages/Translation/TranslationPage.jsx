@@ -233,6 +233,10 @@ const TranslationPage = () => {
               term={slang.term}
               meaning={slang.meaning}
               example={slang.example}
+              onClick={() => {
+                navigator.clipboard.writeText(slang.term)
+                toast.success('Copied to clipboard')
+              }}
             />
           ))}
         </div>

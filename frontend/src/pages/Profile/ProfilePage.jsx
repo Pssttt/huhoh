@@ -1,16 +1,30 @@
 import React, { useEffect } from 'react'
 import DashboardNavBar from '@/components/DashboardNavBar'
 import { useDataContext } from '@/hooks/useDataContext'
-import { Loader2, BookOpen, Languages } from 'lucide-react'
+import { Loader2, BookOpen, Languages, Trash2 } from 'lucide-react'
 import { useFetch } from '@/hooks/useFetch'
+import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
 
 const ProfilePage = () => {
-  const { userData, allSavedTranslations } = useDataContext()
-  const { fetchAllSavedTranslations } = useFetch()
+  const { userData, allSavedTranslations, getAllSavedTranslations } =
+    useDataContext()
+  const { fetchAllSavedTranslations, unsaveTranslation } = useFetch()
 
   useEffect(() => {
     fetchAllSavedTranslations()
   }, [])
+
+  const handleUnsave = async (id) => {
+    try {
+      await unsaveTranslation(id)
+      await getAllSavedTranslations()
+      toast.success('Deleted saved translation')
+    } catch (error) {
+      toast.error('Failed to unsave translation')
+      console.error('Error unsaving translation:', error)
+    }
+  }
 
   if (!userData) {
     return (
@@ -97,6 +111,9 @@ const ProfilePage = () => {
                   <th className="px-6 py-4 text-left text-md font-semibold text-gray-700 tracking-wide">
                     Saved On
                   </th>
+                  <th className="px-6 py-4 text-center text-md font-semibold text-gray-700 tracking-wide w-20">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -115,6 +132,17 @@ const ProfilePage = () => {
                     </td>
                     <td className="px-6 py-4 text-md text-gray-500 whitespace-nowrap">
                       {new Date(translation.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors duration-200"
+                        title="Delete saved translation"
+                        onClick={() => handleUnsave(translation.id)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
                     </td>
                   </tr>
                 ))}
