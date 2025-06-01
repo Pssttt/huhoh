@@ -66,6 +66,7 @@ export const DataContextProvider = ({ children }) => {
         setTrendSlangs,
         allSavedTranslations,
         setAllSavedTranslations,
+        getAllSavedTranslations,
       }}
     >
       {children}

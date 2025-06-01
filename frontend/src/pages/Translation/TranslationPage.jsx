@@ -16,7 +16,7 @@ const TranslationPage = () => {
   const [id, setId] = useState('')
   const [isGenZToEnglish, setIsGenZToEnglish] = useState(true)
   const [isTranslating, setIsTranslating] = useState(false)
-  const { trendSlangs } = useDataContext()
+  const { trendSlangs, getAllSavedTranslations } = useDataContext()
   const { saveTranslation } = useFetch()
 
   const handleDirectionToggle = () => {
@@ -108,9 +108,11 @@ const TranslationPage = () => {
 
     try {
       await saveTranslation(id)
+      await getAllSavedTranslations()
       toast.success('Successfully Saved!')
     } catch (e) {
-      console.error(e)
+      console.error('Error saving translation:', e)
+      toast.error('Failed to save translation')
     }
   }
 

@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import DashboardNavBar from '@/components/DashboardNavBar'
 import { useDataContext } from '@/hooks/useDataContext'
 import { Loader2 } from 'lucide-react'
+import { useFetch } from '@/hooks/useFetch'
 
 const ProfilePage = () => {
   const { userData, allSavedTranslations } = useDataContext()
+  const { fetchAllSavedTranslations } = useFetch()
+
+  useEffect(() => {
+    fetchAllSavedTranslations()
+  }, [])
 
   if (!userData) {
     return (
@@ -21,8 +27,6 @@ const ProfilePage = () => {
       </div>
     )
   }
-
-  console.log(allSavedTranslations)
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
