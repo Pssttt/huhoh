@@ -235,16 +235,7 @@ const DashboardNavBar = () => {
                   navigate('/profile')
                 }}
               >
-                View Profile Page
-              </button>
-              <button
-                className="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={() => {
-                  setMenuOpen(false)
-                  navigate('/profile/edit')
-                }}
-              >
-                Edit Profile Page
+                View Profile
               </button>
               <button
                 className="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
@@ -254,6 +245,15 @@ const DashboardNavBar = () => {
                 }}
               >
                 View History
+              </button>
+              <button
+                className="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
+                onClick={() => {
+                  setMenuOpen(false)
+                  navigate('/profile/edit')
+                }}
+              >
+                Edit Profile
               </button>
               <button
                 className="w-full text-left px-4 py-3 text-red-500 hover:bg-gray-100 rounded-lg transition-colors"
