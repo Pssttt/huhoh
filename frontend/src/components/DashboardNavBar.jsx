@@ -137,6 +137,15 @@ const DashboardNavBar = () => {
                   Edit Profile Page
                 </button>
                 <button
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                  onClick={() => {
+                    setMenuOpen(false)
+                    navigate('/profile/history')
+                  }}
+                >
+                  View History
+                </button>
+                <button
                   className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
                   onClick={handleSignOut}
                 >

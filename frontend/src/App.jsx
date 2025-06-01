@@ -34,12 +34,12 @@ const router = createBrowserRouter([
     element: <TranslationPage />,
   },
   {
-    path: '/profile',
-    element: <ProfilePage />,
-  },
-  {
     path: '/slangopedia',
     element: <SlangopediaPage />,
+  },
+  {
+    path: '/profile',
+    element: <ProfilePage />,
   },
   {
     path: '/profile/edit',
