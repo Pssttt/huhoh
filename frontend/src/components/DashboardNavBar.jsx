@@ -115,10 +115,10 @@ const DashboardNavBar = () => {
                 alt="Profile"
                 loading="lazy"
                 onClick={() => setMenuOpen((open) => !open)}
-                className={`w-8 h-8 lg:w-12 lg:h-12 rounded-full cursor-pointer object-cover transition-all ${
+                className={`w-10 h-10 lg:w-16 lg:h-16 p-0.5 rounded-full cursor-pointer object-cover transition-all ${
                   isActive('/profile')
-                    ? 'border-2 border-primary'
-                    : 'border-2 border-transparent hover:border-purple-200'
+                    ? 'border-4 border-primary'
+                    : 'border-4 border-transparent hover:border-purple-200'
                 }`}
               />
               {menuOpen && (
@@ -199,7 +199,7 @@ const DashboardNavBar = () => {
               <img
                 src={userData.profilePic}
                 alt="Profile"
-                className={`w-6 h-6 rounded-full object-cover mb-1 ${
+                className={`w-8 h-8 rounded-full object-cover mb-1 ${
                   isActive('/profile') ? 'border-2 border-purple-600' : ''
                 }`}
               />
@@ -232,7 +232,7 @@ const DashboardNavBar = () => {
               <img
                 src={userData.profilePic}
                 alt="Profile"
-                className="w-12 h-12 rounded-full object-cover"
+                className="w-16 h-16 rounded-full object-cover"
               />
               <div>
                 <h3 className="font-semibold text-gray-800">

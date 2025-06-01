@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import DashboardNavBar from '@/components/DashboardNavBar'
 import { useDataContext } from '@/hooks/useDataContext'
-import { Loader2 } from 'lucide-react'
+import { Loader2, BookOpen, Languages } from 'lucide-react'
 import { useFetch } from '@/hooks/useFetch'
 
 const ProfilePage = () => {
@@ -42,29 +42,47 @@ const ProfilePage = () => {
               <img
                 src={userData.profilePic}
                 alt="User avatar"
-                className="w-30 h-30 rounded-full object-cover border-4 border-purple-100"
+                className="w-30 h-30 lg:w-48 lg:h-48 rounded-full object-cover border-4 border-purple-100"
               />
             </div>
             <div className="flex flex-col items-center gap-1">
               <h2 className="text-gray-500 text-4xl font-bold">
                 {userData.username}
               </h2>
-              <span className="text-gray-400 text-xs">Joined in 2022</span>
+              <span className="text-gray-400 text-xs">
+                Joined in {userData.createdAt}
+              </span>
             </div>
           </div>
           {/* Stats */}
-          <div className="flex justify-center mt-8">
-            <div className="bg-gray-50 rounded-xl px-85 py-6 flex flex-col items-center shadow w-full max-w-md">
-              <span className="text-gray-500 text-4xl">Total</span>
-              <span className="text-4xl font-bold text-purple-600">
+          <div className="flex justify-center gap-6 mt-8">
+            <div className="min-w-32 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 w-full max-w-md border border-purple-100/50">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3">
+                <Languages className="w-6 h-6 text-purple-600" />
+              </div>
+              <span className="text-gray-600 text-lg font-medium mb-1">
+                Total Translations
+              </span>
+              <span className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 {allSavedTranslations.totalCount}
+              </span>
+            </div>
+            <div className="min-w-32 bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 w-full max-w-md border border-purple-100/50">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-3">
+                <BookOpen className="w-6 h-6 text-purple-600" />
+              </div>
+              <span className="text-gray-600 text-lg font-medium mb-1">
+                Unique Slangs
+              </span>
+              <span className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                {allSavedTranslations.totalUniqueSlangTerms}
               </span>
             </div>
           </div>
         </section>
 
         {/* Saved Translations */}
-        <section className="w-full max-w-3xl bg-white rounded-2xl shadow-md p-8">
+        <section className="w-full max-w-3xl bg-white rounded-2xl shadow-md p-8 mb-8">
           <h3 className="text-lg font-semibold mb-4">Saved Translations</h3>
           <div className="overflow-x-auto rounded-lg border border-gray-200 shadow-sm">
             <table className="min-w-full divide-y divide-gray-200">

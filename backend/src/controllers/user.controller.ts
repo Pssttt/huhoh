@@ -100,13 +100,14 @@ const getUserInfo = async (c: Context) => {
     return c.json({ success: false, msg: "Unauthorized" }, 401);
   }
   const user = await userModel.getUserInfo(userId);
-  const { username, profilePic } = user as {
+  const { username, profilePic, createdAt } = user as {
     username: string;
     profilePic: string;
+    createdAt: Date;
   };
   return c.json({
     success: true,
-    info: { username, profilePic },
+    info: { username, profilePic, createdAt: createdAt.getFullYear() },
     msg: "User info fetched",
   });
 };

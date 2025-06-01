@@ -48,6 +48,15 @@ const getAllSavedTranslationsByUser = async (userId: string) => {
             original: true,
             translated: true,
             createdAt: true,
+            slangMentions: {
+              select: {
+                slangTerm: {
+                  select: {
+                    term: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -57,6 +66,14 @@ const getAllSavedTranslationsByUser = async (userId: string) => {
     }),
   ]);
 
+  const uniqueTerms = new Set<string>();
+  for (const st of savedTranslations) {
+    for (const sm of st.translation.slangMentions) {
+      uniqueTerms.add(sm.slangTerm.term);
+    }
+  }
+  const totalUniqueSlangTerms = uniqueTerms.size;
+
   return {
     translations: savedTranslations.map((st) => ({
       id: st.translation.id,
@@ -65,6 +82,7 @@ const getAllSavedTranslationsByUser = async (userId: string) => {
       createdAt: st.translation.createdAt,
     })),
     totalCount,
+    totalUniqueSlangTerms,
   };
 };
 

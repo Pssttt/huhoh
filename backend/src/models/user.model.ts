@@ -28,6 +28,7 @@ const getUserInfo = async (id: string) => {
     select: {
       username: true,
       profilePic: true,
+      createdAt: true,
     },
   });
   return user;

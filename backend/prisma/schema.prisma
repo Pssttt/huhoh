@@ -35,7 +35,7 @@ model SlangTerm {
   id        String         @id @default(uuid())
   term      String         @unique
   meaning   String
-  example   String?        @db.VarChar(255)
+  example   String?        @db.VarC har(255)
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   mentions  SlangMention[]
