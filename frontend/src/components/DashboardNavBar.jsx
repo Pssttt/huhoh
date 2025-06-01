@@ -208,11 +208,11 @@ const DashboardNavBar = () => {
       {menuOpen && (
         <div
           className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-50"
-          // onClick={() => setMenuOpen(false)}
+          onClick={() => setMenuOpen(false)}
         >
           <div
             className="absolute bottom-16 left-0 right-0 bg-white rounded-t-lg p-4 mx-4 mb-4 rounded-lg shadow-xl"
-            // onClick={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-200">
               <img
@@ -230,41 +230,35 @@ const DashboardNavBar = () => {
             <div className="space-y-2">
               <button
                 className="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  e.preventDefault()
-                  void navigate('/profile')
-                  console.log('clicked')
-                  // setMenuOpen(false)
+                onClick={() => {
+                  navigate('/profile')
+                  setMenuOpen(false)
                 }}
               >
                 View Profile Page
               </button>
               <button
                 className="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={(e) => {
-                  // e.stopPropagation()
+                onClick={() => {
                   setMenuOpen(false)
-                  setTimeout(() => navigate('/profile/edit'), 0)
+                  navigate('/profile/edit')
                 }}
               >
                 Edit Profile Page
               </button>
               <button
                 className="w-full text-left px-4 py-3 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={(e) => {
-                  // e.stopPropagation()
+                onClick={() => {
                   setMenuOpen(false)
-                  setTimeout(() => navigate('/profile/history'), 0)
+                  navigate('/profile/history')
                 }}
               >
                 View History
               </button>
               <button
                 className="w-full text-left px-4 py-3 text-red-500 hover:bg-gray-100 rounded-lg transition-colors"
-                onClick={(e) => {
+                onClick={() => {
                   setMenuOpen(false)
-                  // e.stopPropagation()
                   handleSignOut()
                 }}
               >
