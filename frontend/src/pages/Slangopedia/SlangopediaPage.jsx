@@ -31,10 +31,10 @@ const SlangopediaPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <DashboardNavBar />
-      <h1 className="text-4xl font-bold text-center mb-12 text-gray-900">
+      <h1 className="text-2xl sm:text-4xl font-bold text-center mb-6 sm:mb-12 text-gray-900 px-4 mt-8 sm:mt-8">
         Slangopedia
       </h1>
-      <div className="sticky top-30 z-10 mx-24">
+      <div className="sticky top-20 z-10 mx-4 sm:mx-24">
         <Search className="w-4 h-4 absolute left-2 top-4 text-text dark:text-text" />
         <Input
           type="search"
@@ -46,7 +46,7 @@ const SlangopediaPage = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-8">
           {filteredSlangs.map((slang) => (
             <SlangCard
               key={slang.id}
