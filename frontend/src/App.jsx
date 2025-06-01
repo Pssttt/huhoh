@@ -10,6 +10,7 @@ import SlangopediaPage from './pages/Slangopedia/SlangopediaPage'
 import EditProfilePage from './pages/Profile/EditProfilePage'
 import HistoryPage from './pages/History/HistoryPage'
 import { publicRouteLoader, protectedRouteLoader } from './services/auth'
+import DemoPage from './pages/Demo/DemoPage'
 
 const LoadingFallback = () => (
   <div className="flex justify-center items-center h-screen">
@@ -21,6 +22,11 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage />,
+    loader: publicRouteLoader,
+  },
+  {
+    path: '/demo',
+    element: <DemoPage />,
     loader: publicRouteLoader,
   },
   {

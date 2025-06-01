@@ -120,9 +120,11 @@ const SignInPage = () => {
 
             {/* Demo mode */}
             <div className="flex justify-center w-full">
-              <span className="text-sm text-gray-400 cursor-pointer hover:underline">
-                Or, try the demo mode
-              </span>
+              <Link to="/demo">
+                <span className="text-sm text-gray-400 cursor-pointer hover:underline">
+                  Or, try the demo mode
+                </span>
+              </Link>
             </div>
           </form>
         </div>
