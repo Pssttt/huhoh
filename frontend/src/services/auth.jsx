@@ -1,26 +1,13 @@
 import { redirect } from 'react-router-dom'
 import api from './api'
 
-const CACHE_DURATION = 15 * 60 * 1000
-
 export const checkAuthStatus = async () => {
-  const cachedTimestamp = localStorage.getItem('authTimestamp')
-  const currentTime = Date.now()
-
-  if (
-    cachedTimestamp &&
-    currentTime - Number(cachedTimestamp) < CACHE_DURATION
-  ) {
-    return true
-  }
-
   try {
     const res = await api.get('/auth/check')
 
     const isAuthenticated = res.data?.authenticated
 
     if (isAuthenticated) {
-      localStorage.setItem('authTimestamp', Date.now().toString())
       return true
     } else {
       clearAuthData()
@@ -49,15 +36,11 @@ export const protectedRouteLoader = async () => {
 }
 
 export const clearAuthData = async () => {
-  localStorage.removeItem('authTimestamp')
-
-  await api.post('/auth/signout').catch(() => {})
+  await api.post('/auth/signout')
 }
 
 export const storeAuthToken = (token) => {
   if (!token) return
-
-  localStorage.setItem('authTimestamp', new Date().getTime().toString())
 
   api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 }
