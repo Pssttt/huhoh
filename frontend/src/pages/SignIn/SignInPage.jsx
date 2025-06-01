@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import SigninNav from '@/components/SignIn/SignInNav'
 import { toast } from 'sonner'
 import api from '@/services/api'
+import { useDataContext } from '@/hooks/useDataContext'
 
 const signinSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -18,6 +19,7 @@ const signinSchema = z.object({
 const SignInPage = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  const { reloadUserData } = useDataContext()
 
   const {
     register,
@@ -36,6 +38,7 @@ const SignInPage = () => {
         password: data.password,
       })
       if (res.data.success) {
+        await reloadUserData()
         toast.success('Login Successful')
         setTimeout(() => {
           navigate('/translations')

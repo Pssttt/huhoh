@@ -27,6 +27,7 @@ const DashboardNavBar = () => {
 
   const handleSignOut = async () => {
     await clearAuthData()
+    // setUserData(null)
     navigate('/signin')
   }
 

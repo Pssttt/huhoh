@@ -1,19 +1,40 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import DashboardNavBar from '@/components/DashboardNavBar'
 import { useDataContext } from '@/hooks/useDataContext'
 import { Loader2, BookOpen, Languages, Trash2 } from 'lucide-react'
 import { useFetch } from '@/hooks/useFetch'
 import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom'
 
 const ProfilePage = () => {
-  const { userData, allSavedTranslations, getAllSavedTranslations } =
-    useDataContext()
-  const { fetchAllSavedTranslations, unsaveTranslation } = useFetch()
+  const navigate = useNavigate()
+  const {
+    userData,
+    allSavedTranslations,
+    getAllSavedTranslations,
+    reloadUserData,
+  } = useDataContext()
+  const { unsaveTranslation } = useFetch()
+
+  const [initialLoading, setInitialLoading] = useState(!userData)
 
   useEffect(() => {
-    fetchAllSavedTranslations()
-  }, [])
+    const loadUserData = async () => {
+      try {
+        await reloadUserData()
+        await getAllSavedTranslations()
+      } catch (error) {
+        console.error('Failed to load user data:', error)
+        toast.error('Failed to load profile data')
+        navigate('/profile')
+      } finally {
+        setInitialLoading(false)
+      }
+    }
+
+    loadUserData()
+  }, [userData, reloadUserData, navigate])
 
   const handleUnsave = async (id) => {
     try {
@@ -26,10 +47,11 @@ const ProfilePage = () => {
     }
   }
 
-  if (!userData) {
+  if (initialLoading) {
     return (
-      <div className="flex items-center justify-center h-screen w-screen">
-        <Loader2 className="animate-spin w-12 h-12 text-primary" />
+      <div className="flex flex-col min-h-screen bg-white items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <p className="mt-2 text-gray-500">Loading profile data...</p>
       </div>
     )
   }
