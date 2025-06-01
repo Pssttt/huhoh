@@ -34,7 +34,7 @@ const SlangopediaPage = () => {
       <h1 className="text-2xl sm:text-4xl font-bold text-center mb-6 sm:mb-12 text-gray-900 px-4 mt-8 sm:mt-8">
         Slangopedia
       </h1>
-      <div className="sticky top-20 z-10 mx-4 sm:mx-24">
+      <div className="sticky top-20 z-51 mx-4 sm:mx-24">
         <Search className="w-4 h-4 absolute left-2 top-4 text-text dark:text-text" />
         <Input
           type="search"
