@@ -1,7 +1,7 @@
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useDataContext } from '@/hooks/useDataContext'
 import { Loader2, Languages, BookOpen, User } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { clearAuthData } from '@/services/auth'
 
 const DashboardNavBar = () => {
@@ -44,7 +44,7 @@ const DashboardNavBar = () => {
   return (
     <>
       {/* Desktop/Tablet Header */}
-      <header className="hidden md:flex sticky top-0 z-49 mb-8 flex-row justify-between items-center px-6 lg:px-12 py-4 bg-white/80 backdrop-blur-sm border-b border-gray-200/50">
+      <header className="hidden md:flex sticky top-0 z-52 mb-8 flex-row justify-between items-center px-6 lg:px-12 py-4 bg-white/80 backdrop-blur-sm border-b border-gray-200/50">
         <Link
           to="/translations"
           aria-label="Logo"
@@ -138,7 +138,9 @@ const DashboardNavBar = () => {
                   </button>
                   <button
                     className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
-                    onClick={handleSignOut}
+                    onClick={() => {
+                      handleSignOut()
+                    }}
                   >
                     Sign Out
                   </button>
