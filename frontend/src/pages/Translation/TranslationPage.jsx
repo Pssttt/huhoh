@@ -163,7 +163,7 @@ const TranslationPage = () => {
     )
 
   return (
-    <>
+    <div className="bg-gray-50">
       <DashboardNavBar />
       <div className="mt-12 lg:mt-0 flex flex-col lg:flex-row lg:items-center lg:justify-around gap-4 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col w-full lg:max-w-lg">
@@ -283,7 +283,7 @@ const TranslationPage = () => {
           ))}
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
