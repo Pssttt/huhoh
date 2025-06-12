@@ -73,7 +73,7 @@ const DemoPage = () => {
   }
 
   return (
-    <>
+    <div className="bg-gray-50 min-h-screen">
       <LandingNavBar />
       <div className="flex my-12 flex-col lg:flex-row lg:items-center lg:justify-around gap-4 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col w-full lg:max-w-lg">
@@ -132,7 +132,7 @@ const DemoPage = () => {
           />
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
