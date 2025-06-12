@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js",
+    "start": "node index.js",
     "seed": "node prisma/seed.ts"
   },
   "dependencies": {
@@ -15,7 +15,8 @@
     "cloudinary": "^2.6.1",
     "hono": "^4.7.10",
     "jsonwebtoken": "^9.0.2",
-    "mime": "^4.0.7"
+    "mime": "^4.0.7",
+    "node": "^24.2.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.9",
