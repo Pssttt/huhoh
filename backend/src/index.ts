@@ -13,12 +13,14 @@ app.use(
   "*",
   cors({
     origin: [
-      "https://huhoh-be.up.railway.app",
+      "https://huhoh.up.railway.app",
       "http://localhost:3000",
       "http://localhost:5173",
       "http://localhost:3001",
     ],
     credentials: true,
+    allowHeaders: ["Content-Type", "Authorization", "Cookie"],
+    allowMethods: ["GET", "POST", "PUT", "DELETE"],
   }),
 );
 
