@@ -2,7 +2,7 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import dotenv from "dotenv";
 import { cors } from "hono/cors";
-import { mainRouter } from "./routes/index.js";
+import { mainRouter } from "./routes/index.ts";
 import db from "./lib/db.ts";
 dotenv.config();
 
