@@ -31,9 +31,9 @@ Only return JSON. No markdown or code block.
   try {
     const ai = new GoogleGenAI({
       apiKey: GEMINI_API_KEY,
-      vertexai: true,
-      project: GOOGLE_CLOUD_PROJECT,
-      location: GOOGLE_CLOUD_LOCATION,
+      // vertexai: true,
+      // project: GOOGLE_CLOUD_PROJECT,
+      // location: GOOGLE_CLOUD_LOCATION,
     });
 
     const config = {
@@ -95,9 +95,10 @@ Only return JSON. No markdown or code block. If no slang fits, return an empty '
 
   try {
     const ai = new GoogleGenAI({
-      vertexai: true,
-      project: GOOGLE_CLOUD_PROJECT,
-      location: GOOGLE_CLOUD_LOCATION,
+      apiKey: GEMINI_API_KEY,
+      // vertexai: true,
+      // project: GOOGLE_CLOUD_PROJECT,
+      // location: GOOGLE_CLOUD_LOCATION,
     });
 
     const config = {
