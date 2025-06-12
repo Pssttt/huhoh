@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import type { Context } from "hono";
 
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const GOOGLE_CLOUD_PROJECT = process.env.GOOGLE_CLOUD_PROJECT;
 const GOOGLE_CLOUD_LOCATION = process.env.GOOGLE_CLOUD_LOCATION || "global";
 const model = "gemini-2.0-flash";
@@ -29,6 +30,7 @@ Only return JSON. No markdown or code block.
 
   try {
     const ai = new GoogleGenAI({
+      apiKey: GEMINI_API_KEY,
       vertexai: true,
       project: GOOGLE_CLOUD_PROJECT,
       location: GOOGLE_CLOUD_LOCATION,
