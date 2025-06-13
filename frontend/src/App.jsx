@@ -28,7 +28,6 @@ const publicRoutes = [
   { path: '/demo', element: <DemoPage /> },
   { path: '/signup', element: <SignUpPage /> },
   { path: '/signin', element: <SignInPage /> },
-  { path: '/translate/:id', element: <SharedTranslation /> },
   { path: '/terms', element: <TermsPage /> },
   { path: '/privacy', element: <PrivacyPage /> },
   { path: '/contact', element: <ContactPage /> },
@@ -58,7 +57,11 @@ const protectedRoutes = [
   },
 ]
 
-const router = createBrowserRouter([...publicRoutes, ...protectedRoutes])
+const router = createBrowserRouter([
+  ...publicRoutes,
+  ...protectedRoutes,
+  { path: '/translate/:id', element: <SharedTranslation /> },
+])
 
 const App = () => {
   return (
