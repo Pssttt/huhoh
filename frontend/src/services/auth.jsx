@@ -10,7 +10,7 @@ export const checkAuthStatus = async () => {
     if (isAuthenticated) {
       return true
     } else {
-      clearAuthData()
+      // clearAuthData()
       return false
     }
   } catch (err) {
