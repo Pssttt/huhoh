@@ -15,6 +15,7 @@ import SharedTranslation from './pages/SharedTranslation/SharedTranslation'
 import TermsPage from './pages/Footer/TermsPage'
 import PrivacyPage from './pages/Footer/PrivacyPage'
 import ContactPage from './pages/Footer/ContactPage'
+import ProtectedLayout from './components/ProtectedLayout'
 
 const LoadingFallback = () => (
   <div className="flex justify-center items-center h-screen">
@@ -38,17 +39,24 @@ const publicRoutes = [
 ].map((route) => ({ ...route, loader: publicRouteLoader }))
 
 const protectedRoutes = [
-  { path: '/translations', element: <TranslationPage /> },
-  { path: '/slangopedia', element: <SlangopediaPage /> },
   {
-    path: '/profile',
+    path: '/',
+    element: <ProtectedLayout />,
+    loader: protectedRouteLoader,
     children: [
-      { index: true, element: <ProfilePage /> },
-      { path: 'edit', element: <EditProfilePage /> },
-      { path: 'history', element: <HistoryPage /> },
+      { path: 'translations', element: <TranslationPage /> },
+      { path: 'slangopedia', element: <SlangopediaPage /> },
+      {
+        path: 'profile',
+        children: [
+          { index: true, element: <ProfilePage /> },
+          { path: 'edit', element: <EditProfilePage /> },
+          { path: 'history', element: <HistoryPage /> },
+        ],
+      },
     ],
   },
-].map((route) => ({ ...route, loader: protectedRouteLoader }))
+]
 
 const router = createBrowserRouter([...publicRoutes, ...protectedRoutes])
 
