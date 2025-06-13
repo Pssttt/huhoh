@@ -22,69 +22,31 @@ const LoadingFallback = () => (
   </div>
 )
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <LandingPage />,
-    loader: publicRouteLoader,
-  },
-  {
-    path: '/demo',
-    element: <DemoPage />,
-    loader: publicRouteLoader,
-  },
-  {
-    path: '/signup',
-    element: <SignUpPage />,
-    loader: publicRouteLoader,
-  },
-  {
-    path: '/signin',
-    element: <SignInPage />,
-    loader: publicRouteLoader,
-  },
-  {
-    path: '/translate/:id',
-    element: <SharedTranslation />,
-  },
-  {
-    path: '/translations',
-    element: <TranslationPage />,
-    loader: protectedRouteLoader,
-  },
-  {
-    path: '/slangopedia',
-    element: <SlangopediaPage />,
-    loader: protectedRouteLoader,
-  },
+const publicRoutes = [
+  { path: '/', element: <LandingPage /> },
+  { path: '/demo', element: <DemoPage /> },
+  { path: '/signup', element: <SignUpPage /> },
+  { path: '/signin', element: <SignInPage /> },
+  { path: '/translate/:id', element: <SharedTranslation /> },
+  { path: '/terms', element: <TermsPage /> },
+  { path: '/privacy', element: <PrivacyPage /> },
+  { path: '/contact', element: <ContactPage /> },
+].map((route) => ({ ...route, loader: publicRouteLoader }))
+
+const protectedRoutes = [
+  { path: '/translations', element: <TranslationPage /> },
+  { path: '/slangopedia', element: <SlangopediaPage /> },
   {
     path: '/profile',
-    element: <ProfilePage />,
-    loader: protectedRouteLoader,
+    children: [
+      { index: true, element: <ProfilePage /> },
+      { path: 'edit', element: <EditProfilePage /> },
+      { path: 'history', element: <HistoryPage /> },
+    ],
   },
-  {
-    path: '/profile/edit',
-    element: <EditProfilePage />,
-    loader: protectedRouteLoader,
-  },
-  {
-    path: '/profile/history',
-    element: <HistoryPage />,
-    loader: protectedRouteLoader,
-  },
-  {
-    path: '/terms',
-    element: <TermsPage />,
-  },
-  {
-    path: '/privacy',
-    element: <PrivacyPage />,
-  },
-  {
-    path: '/contact',
-    element: <ContactPage />,
-  },
-])
+].map((route) => ({ ...route, loader: protectedRouteLoader }))
+
+const router = createBrowserRouter([...publicRoutes, ...protectedRoutes])
 
 const App = () => {
   return (
