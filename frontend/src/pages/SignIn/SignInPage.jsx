@@ -10,7 +10,6 @@ import SigninNav from '@/components/SignIn/SignInNav'
 import { toast } from 'sonner'
 import api from '@/services/api'
 import { useDataContext } from '@/hooks/useDataContext'
-import { useFetch } from '@/hooks/useFetch'
 
 const signinSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -20,9 +19,7 @@ const signinSchema = z.object({
 const SignInPage = () => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
-  const { trendSlangs, getAllSavedTranslations, reloadUserData } =
-    useDataContext()
-  const { saveTranslation } = useFetch()
+  const { getAllSavedTranslations, reloadUserData } = useDataContext()
 
   const {
     register,
