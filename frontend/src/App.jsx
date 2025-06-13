@@ -31,6 +31,10 @@ const publicRoutes = [
   { path: '/terms', element: <TermsPage /> },
   { path: '/privacy', element: <PrivacyPage /> },
   { path: '/contact', element: <ContactPage /> },
+  {
+    path: '*',
+    element: <div>404 Not Found</div>,
+  },
 ].map((route) => ({ ...route, loader: publicRouteLoader }))
 
 const protectedRoutes = [
