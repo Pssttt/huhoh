@@ -31,10 +31,10 @@ const SlangopediaPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <DashboardNavBar />
-      <h1 className="text-2xl sm:text-4xl font-bold text-center mb-6 sm:mb-12 text-gray-900 px-4 mt-8 sm:mt-8">
+      <h1 className="text-2xl sm:text-4xl font-bold text-center mb-6 sm:mb-12 text-gray-900 px-4 pt-8 sm:mt-8">
         Slangopedia
       </h1>
-      <div className="sticky top-24 z-51 mx-4 sm:mx-24">
+      <div className="sticky top-4 md:top-24 z-49 md:z-51 mx-4 sm:mx-24">
         <Search className="w-4 h-4 absolute left-2 top-4 text-text dark:text-text" />
         <Input
           type="search"
