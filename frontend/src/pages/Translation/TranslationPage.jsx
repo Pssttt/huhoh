@@ -108,9 +108,13 @@ const TranslationPage = () => {
     }
 
     try {
-      await saveTranslation(id)
-      await getAllSavedTranslations()
-      toast.success('Successfully Saved!')
+      const res = await saveTranslation(id)
+      if (!res) {
+        toast.error('Translation already saved!')
+      } else {
+        toast.success('Successfully Saved!')
+        await getAllSavedTranslations()
+      }
     } catch (e) {
       console.error('Error saving translation:', e)
       toast.error('Failed to save translation')
