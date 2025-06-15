@@ -15,12 +15,28 @@ import { useFetch } from '@/hooks/useFetch'
 import api from '@/services/api'
 import { clearAuthData } from '@/services/auth'
 
-const formSchema = z.object({
-  newPassword: z
-    .string()
-    .min(6, 'Password must be at least 6 characters')
-    .optional(),
-})
+const formSchema = z
+  .object({
+    oldPassword: z.string().optional(),
+    newPassword: z.string().optional(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.newPassword && data.newPassword.length < 6) {
+      ctx.addIssue({
+        path: ['newPassword'],
+        message: 'New password must be at least 6 characters',
+        code: z.ZodIssueCode.too_small,
+      })
+    }
+
+    if (data.oldPassword && !data.newPassword) {
+      ctx.addIssue({
+        path: ['newPassword'],
+        message: 'Enter new password to update your password',
+        code: z.ZodIssueCode.custom,
+      })
+    }
+  })
 
 const EditUserAccount = () => {
   const { userData, setUserData, reloadUserData } = useDataContext()
@@ -40,6 +56,7 @@ const EditUserAccount = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(formSchema),
@@ -201,6 +218,11 @@ const EditUserAccount = () => {
           {errors.newPassword && (
             <p className="text-sm text-red-500 mt-1">
               {errors.newPassword.message}
+            </p>
+          )}
+          {(watch('oldPassword') || watch('newPassword')) && (
+            <p className="text-xs text-orange-500 text-center">
+              You'll be signed out if you change your password.
             </p>
           )}
 
