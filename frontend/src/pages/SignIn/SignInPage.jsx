@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input'
 import SigninNav from '@/components/SignIn/SignInNav'
 import { toast } from 'sonner'
 import api from '@/services/api'
+import { Eye, EyeOff } from 'lucide-react'
 
 const signinSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -17,6 +18,7 @@ const signinSchema = z.object({
 
 const SignInPage = () => {
   const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const {
@@ -86,18 +88,25 @@ const SignInPage = () => {
               )}
             </div>
 
-            <div>
+            <div className="relative">
               <Input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 {...register('password')}
               />
-              {errors.password && (
-                <p className="text-sm text-red-500 mt-1">
-                  {errors.password.message}
-                </p>
-              )}
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
             </div>
+            {errors.password && (
+              <p className="text-sm text-red-500 mt-1">
+                {errors.password.message}
+              </p>
+            )}
 
             {/* Link to Sign Up */}
             <div className="text-sm text-center text-gray-500">
