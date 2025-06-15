@@ -130,7 +130,7 @@ const EditUserAccount = () => {
   }
 
   return (
-    <div className="pt-12 md:mt-0 flex flex-col min-h-screen bg-white">
+    <div className="min-h-screen bg-background flex flex-col">
       <DashboardNavBar />
       <h2 className="text-2xl font-bold ml-12">Edit Profile</h2>
       <div className="flex flex-1 items-center justify-center">
