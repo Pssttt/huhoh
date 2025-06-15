@@ -79,7 +79,7 @@ const ProfilePage = () => {
                 <Languages className="w-6 h-6 text-purple-600" />
               </div>
               <span className="text-gray-600 text-lg font-medium mb-1">
-                Total Translations
+                Saved Translations
               </span>
               <span className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 {allSavedTranslations.totalCount}
