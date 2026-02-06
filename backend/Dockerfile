@@ -19,6 +19,8 @@ RUN cd backend && npm ci --legacy-peer-deps --omit=dev
 
 COPY backend/prisma ./backend/prisma
 COPY --from=builder /app/backend/dist ./backend/dist
+COPY --from=builder /app/backend/node_modules/.prisma ./backend/node_modules/.prisma
+COPY --from=builder /app/backend/src/generated ./backend/src/generated
 
 WORKDIR /app/backend
 
