@@ -9,18 +9,17 @@ dotenv.config();
 
 const app = new Hono();
 
+const allowedOrigins = (
+  process.env.ALLOWED_ORIGINS || "http://localhost:5173"
+).split(",");
+
 app.use(
   "*",
   cors({
-    origin: [
-      "https://huhoh.up.railway.app",
-      "http://localhost:3000",
-      "http://localhost:5173",
-      "http://localhost:3001",
-    ],
+    origin: allowedOrigins,
     credentials: true,
     allowHeaders: ["Content-Type", "Authorization", "Cookie"],
-    allowMethods: ["GET", "POST", "PUT", "DELETE"],
+    allowMethods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   }),
 );
 
