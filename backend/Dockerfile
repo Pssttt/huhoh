@@ -7,8 +7,7 @@ RUN cd backend && npm ci --legacy-peer-deps
 COPY backend ./backend
 WORKDIR /app/backend
 RUN npx prisma generate
-WORKDIR /app
-RUN cd backend && npm run build
+RUN npm run build
 
 # Production stage
 FROM node:25-alpine
@@ -18,6 +17,7 @@ RUN apk add --no-cache curl openssl
 COPY backend/package.json backend/package-lock.json ./backend/
 RUN cd backend && npm ci --legacy-peer-deps --omit=dev
 
+COPY backend/prisma ./backend/prisma
 COPY --from=builder /app/backend/dist ./backend/dist
 
 WORKDIR /app/backend
@@ -29,4 +29,4 @@ ENV NODE_ENV=production
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
   CMD curl -f http://localhost:3000/health || exit 1
 
-CMD ["node", "src/index.ts"]
+CMD ["node", "dist/index.cjs"]

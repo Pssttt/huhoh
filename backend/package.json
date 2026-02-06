@@ -3,9 +3,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node src/index.ts",
-    "seed": "node prisma/seed.ts"
+    "build": "tsup",
+    "start": "node dist/index.cjs"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -16,7 +15,8 @@
     "hono": "^4.7.10",
     "jsonwebtoken": "^9.0.2",
     "mime": "^4.0.7",
-    "node": "^24.2.0"
+    "node": "^24.2.0",
+    "tsup": "^8.5.1"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.9",
