@@ -16,7 +16,7 @@ const createUser = async (c: Context) => {
           data: null,
           msg: "Missing required fields",
         },
-        400
+        400,
       );
     }
 
@@ -56,7 +56,7 @@ const createUser = async (c: Context) => {
         data: null,
         msg: `${e}`,
       },
-      500
+      500,
     );
   }
 };
@@ -69,7 +69,7 @@ const signInUser = async (c: Context) => {
     if (!user) {
       return c.json(
         { success: false, data: null, msg: "Email doesn't exist" },
-        401
+        401,
       );
     }
 
@@ -77,7 +77,7 @@ const signInUser = async (c: Context) => {
     if (!isValid) {
       return c.json(
         { success: false, data: null, msg: "Invalid credentials" },
-        401
+        401,
       );
     }
 
@@ -113,8 +113,8 @@ const getUserInfo = async (c: Context) => {
 };
 
 const signOutUser = async (c: Context) => {
-  deleteCookie(c, "token");
-  deleteCookie(c, "refresh_token");
+  deleteCookie(c, "huhoh_token");
+  deleteCookie(c, "huhoh_refresh_token");
 
   return c.json({ success: true, msg: "Logged out successfully" });
 };
@@ -123,7 +123,7 @@ const refreshToken = async (c: Context) => {
   const cookieSecret = process.env.SECRET_COOKIE!;
 
   try {
-    const token = await getSignedCookie(c, cookieSecret, "refresh_token");
+    const token = await getSignedCookie(c, cookieSecret, "huhoh_refresh_token");
 
     if (typeof token !== "string") {
       throw new Error("Invalid or missing token");
@@ -179,12 +179,12 @@ const updateProfile = async (c: Context) => {
     if (oldPassword) {
       const isValid = await userModel.validatePassword(
         oldPassword,
-        user.password
+        user.password,
       );
       if (!isValid) {
         return c.json(
           { success: false, data: null, msg: "Invalid credentials" },
-          401
+          401,
         );
       }
       updateData.password = newPassword;

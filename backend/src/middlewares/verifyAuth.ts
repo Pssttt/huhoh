@@ -25,14 +25,14 @@ const verifyAuth = async (c: Context, next: Next) => {
     });
 
     await Promise.all([
-      setSignedCookie(c, "token", newAccessToken, secret, {
+      setSignedCookie(c, "huhoh_token", newAccessToken, secret, {
         httpOnly: true,
         secure: true,
         sameSite: "Strict" as const,
         path: "/",
         maxAge: 15 * 60,
       }),
-      setSignedCookie(c, "refresh_token", newRefreshToken, cookieSecret, {
+      setSignedCookie(c, "huhoh_refresh_token", newRefreshToken, cookieSecret, {
         httpOnly: true,
         secure: true,
         sameSite: "Strict" as const,

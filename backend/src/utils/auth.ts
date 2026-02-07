@@ -14,16 +14,18 @@ const issueTokens = async (c: Context, user: any) => {
   const accessToken = generateAccessToken(user);
   const refreshToken = generateRefreshToken(user);
 
-  await setSignedCookie(c, "token", accessToken, secret, {
+  await setSignedCookie(c, "huhoh_token", accessToken, secret, {
     httpOnly: true,
     secure: true,
+    domain: ".psstee.dev",
     path: "/",
     maxAge: 60 * 15,
   });
 
-  await setSignedCookie(c, "refresh_token", refreshToken, cookieSecret, {
+  await setSignedCookie(c, "huhoh_refresh_token", refreshToken, cookieSecret, {
     httpOnly: true,
     secure: true,
+    domain: ".psstee.dev",
     sameSite: "Lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 7,
@@ -37,18 +39,23 @@ const getAuthState = async (c: Context) => {
   const cookieSecret = process.env.SECRET_COOKIE!;
 
   try {
-    const accessToken = await getSignedCookie(c, secret, "token");
+    const accessToken = await getSignedCookie(c, secret, "huhoh_token");
     const refreshToken = await getSignedCookie(
       c,
       cookieSecret,
-      "refresh_token",
+      "huhoh_refresh_token",
     );
 
-    if (typeof refreshToken !== "string") return { isValid: false };
+    if (typeof refreshToken !== "string") {
+      console.log("Refresh token not a string");
+      return { isValid: false };
+    }
 
     const refreshPayload = verifyRefreshToken(refreshToken);
-    if (!refreshPayload?.id || !refreshPayload?.email)
+    if (!refreshPayload?.id || !refreshPayload?.email) {
+      console.log("Invalid refresh token payload");
       return { isValid: false };
+    }
 
     let needsNewAccessToken = true;
     if (typeof accessToken === "string") {
@@ -62,7 +69,8 @@ const getAuthState = async (c: Context) => {
       userEmail: refreshPayload.email,
       needsNewTokens: needsNewAccessToken,
     };
-  } catch {
+  } catch (e) {
+    console.log("Auth state error:", e);
     return { isValid: false };
   }
 };
