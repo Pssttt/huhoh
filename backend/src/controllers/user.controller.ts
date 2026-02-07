@@ -113,8 +113,14 @@ const getUserInfo = async (c: Context) => {
 };
 
 const signOutUser = async (c: Context) => {
-  deleteCookie(c, "huhoh_token");
-  deleteCookie(c, "huhoh_refresh_token");
+  deleteCookie(c, "huhoh_token", {
+    domain: ".psstee.dev",
+    path: "/",
+  });
+  deleteCookie(c, "huhoh_refresh_token", {
+    domain: ".psstee.dev",
+    path: "/",
+  });
 
   return c.json({ success: true, msg: "Logged out successfully" });
 };
