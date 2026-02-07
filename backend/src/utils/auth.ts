@@ -24,7 +24,7 @@ const issueTokens = async (c: Context, user: any) => {
   await setSignedCookie(c, "refresh_token", refreshToken, cookieSecret, {
     httpOnly: true,
     secure: true,
-    sameSite: "Strict",
+    sameSite: "Lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 7,
   });
@@ -41,7 +41,7 @@ const getAuthState = async (c: Context) => {
     const refreshToken = await getSignedCookie(
       c,
       cookieSecret,
-      "refresh_token"
+      "refresh_token",
     );
 
     if (typeof refreshToken !== "string") return { isValid: false };
